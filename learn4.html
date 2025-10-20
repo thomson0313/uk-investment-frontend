@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Digital and Technology Industry | 英国数字与技术产业</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --uk-red: #CC0000;
+            --uk-blue: #012169;
+            --uk-light-blue: #1d4ed8;
+            --uk-teal: #008080;
+            --dark-gray: #1e293b;
+            --mid-gray: #64748b;
+            --light-gray: #f1f5f9;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background-color: #f8f9fa;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 999;
+            background: var(--uk-teal);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .language-toggle:hover {
+            background: var(--uk-blue);
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--uk-teal);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #f0f0f0;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .header-icons i {
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('assets/image1.4.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 70px;
+            position: relative;
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Main Content */
+        .content-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+        
+        .section-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section-content p {
+            margin-bottom: 20px;
+            color: var(--mid-gray);
+            line-height: 1.7;
+        }
+        
+        .section-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 10px;
+            color: var(--mid-gray);
+        }
+        
+        .section-image {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .section-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--uk-teal);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 20px 0;
+            text-transform: uppercase;
+        }
+        
+        .cta-button:hover {
+            background: var(--uk-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Bilingual Content */
+        .language-content {
+            display: none;
+        }
+        
+        .language-content.active {
+            display: block;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--uk-teal);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--uk-teal);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+        
+        .feature-card p {
+            color: var(--mid-gray);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: var(--uk-blue);
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+        }
+        
+        /* Multi-column Lists */
+        .multi-column-list {
+            columns: 2;
+            margin: 20px 0;
+        }
+        
+        .multi-column-list li {
+            margin-bottom: 10px;
+            color: var(--mid-gray);
+            break-inside: avoid;
+        }
+        
+        /* Promotional Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--uk-teal) 0%, var(--uk-blue) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .promo-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .promo-text {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .promo-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .promo-text h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .promo-graphic {
+            flex: 1;
+            text-align: right;
+            position: relative;
+        }
+        
+        .promo-graphic i {
+            font-size: 120px;
+            opacity: 0.8;
+        }
+        
+        .uk-flag {
+            position: absolute;
+            top: -10px;
+            right: 0;
+            width: 80px;
+            height: 50px;
+            background: linear-gradient(to right, var(--uk-blue) 33%, var(--white) 33%, var(--white) 66%, var(--uk-red) 66%);
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        
+        .email-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .submit-button {
+            background: var(--uk-teal);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background: var(--uk-blue);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+        }
+        
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-icons i {
+            font-size: 20px;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons i:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .multi-column-list {
+                columns: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--uk-teal);
+                flex-direction: column;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 60vh;
+                margin-top: 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .promo-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .promo-text {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-form {
+                flex-direction: column;
+            }
+            
+            .email-input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .submit-button {
+                border-radius: 4px;
+                padding: 12px;
+            }
+            
+            .language-toggle {
+                top: 70px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <button class="language-toggle" id="languageToggle">中文</button>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-microchip"></i>
+                    <span>Digital & Technology</span>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="#overview">Overview</a>
+                    <a href="#why-uk">Why UK</a>
+                    <a href="#sectors">Key Sectors</a>
+                    <a href="#development">Development Plan</a>
+                    <a href="Investment.html">Investment</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+                
+                <div class="header-icons">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- English Content -->
+            <div class="language-content active" id="englishContent">
+                <h1>UK Digital and Technology Industry</h1>
+                <p>Driving innovation and shaping the future through cutting-edge technology solutions</p>
+                <a href="#overview" class="cta-button">Explore Opportunities</a>
+            </div>
+            
+            <!-- Chinese Content -->
+            <div class="language-content" id="chineseContent">
+                <h1>英国数字与技术产业</h1>
+                <p>通过尖端技术解决方案推动创新并塑造未来</p>
+                <a href="#overview" class="cta-button">探索机遇</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Overview Section -->
+        <section class="content-section" id="overview">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishOverviewHeader">
+                        <h2>Digital and Technology Industry Overview</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseOverviewHeader">
+                        <h2>数字与技术产业概述</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishOverviewContent">
+                        <p>The UK Digital and Technology Industry represents one of the most dynamic and rapidly evolving sectors of our economy, driving innovation across every industry and transforming how we live, work, and connect. As a global leader in technology development and implementation, the UK is at the forefront of the digital revolution.</p>
+                        <p>With a thriving ecosystem of startups, scale-ups, and established tech giants, the UK digital sector generates over £150 billion annually and employs more than 1.5 million people across the nation, with continued rapid growth projected.</p>
+                        
+                        <h3>Key Sectors:</h3>
+                        <ul class="multi-column-list">
+                            <li><strong>Artificial intelligence (AI)</strong> - Machine learning and intelligent systems</li>
+                            <li><strong>Data science</strong> - Analytics, insights, and predictive modeling</li>
+                            <li><strong>Quantum computing</strong> - Next-generation computational power</li>
+                            <li><strong>Cyber security</strong> - Digital protection and threat intelligence</li>
+                            <li><strong>Telecommunications</strong> - 5G, fiber optics, and network infrastructure</li>
+                            <li><strong>Software development</strong> - Enterprise solutions and consumer applications</li>
+                            <li><strong>Digital creative (gaming, AR/VR)</strong> - Immersive experiences and entertainment</li>
+                            <li><strong>Fintech</strong> - Financial technology and digital banking solutions</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseOverviewContent">
+                        <p>英国数字与技术产业代表了我国经济中最具活力和快速发展的部门之一，推动各行各业的创新，并改变我们的生活、工作和联系方式。作为技术开发和实施的全球领导者，英国处于数字革命的前沿。</p>
+                        <p>凭借蓬勃发展的初创企业、成长型企业和老牌科技巨头的生态系统，英国数字部门每年产生超过1500亿英镑的收入，并在全国范围内雇佣超过150万人，预计将继续快速增长。</p>
+                        
+                        <h3>关键领域：</h3>
+                        <ul class="multi-column-list">
+                            <li><strong>人工智能 (AI)</strong> - 机器学习和智能系统</li>
+                            <li><strong>数据科学</strong> - 分析、洞察和预测建模</li>
+                            <li><strong>量子计算</strong> - 下一代计算能力</li>
+                            <li><strong>网络安全</strong> - 数字保护和威胁情报</li>
+                            <li><strong>电信</strong> - 5G、光纤和网络基础设施</li>
+                            <li><strong>软件开发</strong> - 企业解决方案和消费者应用程序</li>
+                            <li><strong>数字创意 (游戏、AR/VR)</strong> - 沉浸式体验和娱乐</li>
+                            <li><strong>金融科技</strong> - 金融技术和数字银行解决方案</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why UK Section -->
+        <section class="content-section" style="background: var(--light-gray);" id="why-uk">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishWhyHeader">
+                        <h2>Why choose the UK for digital and technology development?</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseWhyHeader">
+                        <h2>为什么选择英国进行数字与技术开发？</h2>
+                    </div>
+                </div>
+                
+                <div class="features-grid">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishWhyContent">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>World-class R&D and innovation</h3>
+                            <p>The UK ranks among the top nations globally for research and development in digital technologies and computer science. Our world-renowned universities and research institutions collaborate directly with industry to drive innovation.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Access to talent and skills</h3>
+                            <p>The UK boasts a highly skilled technology workforce with expertise in software engineering, data science, AI development, and cybersecurity. Our education system produces world-class computer scientists and engineers.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <h3>Supportive ecosystem and funding</h3>
+                            <p>The UK offers comprehensive support for technology businesses through targeted funding programs, incubators, accelerators, and specialized infrastructure.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseWhyContent">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>世界级研发与创新</h3>
+                            <p>英国在数字技术和计算机科学研发方面位居全球前列。我们世界知名的大学和研究机构直接与行业合作，推动创新。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>人才与技能获取</h3>
+                            <p>英国拥有高技能的技术劳动力，在软件工程、数据科学、人工智能开发和网络安全方面具有专业知识。我们的教育系统培养世界级的计算机科学家和工程师。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <h3>支持性生态系统与资金</h3>
+                            <p>英国通过有针对性的资助计划、孵化器、加速器和专门的基础设施，为技术企业提供全面支持。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Plan Section -->
+        <section class="content-section" id="development">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishDevelopmentHeader">
+                        <h2>UK Digital and Technology Industry Development Plan</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseDevelopmentHeader">
+                        <h2>英国数字与技术产业发展计划</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishDevelopmentContent">
+                        <p>The UK Digital and Technology Industry Development Plan represents a comprehensive strategy to strengthen our position as a global technology superpower. Through targeted investment, skills development, and international collaboration, we're building an ecosystem where technology businesses can thrive and scale globally.</p>
+                        <p>Our plan includes significant funding for AI research, quantum computing initiatives, cybersecurity infrastructure, and digital skills development. With over £2 billion committed to AI development alone, we're ensuring the UK remains at the forefront of technological innovation.</p>
+                        <p>The National AI Strategy, Digital Strategy, and Cyber Security Strategy bring together government, industry, and academia to address key challenges and opportunities in the digital landscape.</p>
+                        
+                        <div class="section-image">
+                            <img src="Assets/image17.jpg" alt="Futuristic Computer Chip with Data Networks">
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <a href="#" class="cta-button">READ OUR FULL REPORT</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseDevelopmentContent">
+                        <p>英国数字与技术产业发展计划代表了一项全面战略，旨在加强我们作为全球技术超级大国的地位。通过有针对性的投资、技能发展和国际合作，我们正在建立一个技术企业可以在全球范围内蓬勃发展并扩大规模的生态系统。</p>
+                        <p>我们的计划包括为人工智能研究、量子计算计划、网络安全基础设施和数字技能发展提供大量资金。仅人工智能开发就投入了超过20亿英镑，我们确保英国保持技术创新的前沿地位。</p>
+                        <p>国家人工智能战略、数字战略和网络安全战略汇集了政府、行业和学术界，以应对数字领域的关键挑战和机遇。</p>
+                        
+                        <div class="section-image">
+                            <img src="Assets/image17.jpg" alt="未来计算机芯片与数据网络">
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <a href="#" class="cta-button">阅读完整报告</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Section -->
+        <section class="content-section" style="background: var(--light-gray);" id="investment">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishInvestmentHeader">
+                        <h2>Invest in the UK to expand your business</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseInvestmentHeader">
+                        <h2>投资英国以扩展您的业务</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishInvestmentContent">
+                        <p>Join the thriving community of international technology companies choosing the UK for growth and innovation. Benefit from our world-class talent pool, supportive policy environment, and access to global markets through our extensive technology networks.</p>
+                        <p>Strategic investments in technology hubs across London, Cambridge, Manchester, Edinburgh, and other cities offer unique opportunities for collaboration with leading research institutions and access to diverse talent pools.</p>
+                        <p>Our team of experts is ready to provide tailored advice and support to help you <strong style="color: var(--uk-blue);">expand your business in the UK</strong> and capitalize on the tremendous opportunities in our dynamic digital and technology sector.</p>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseInvestmentContent">
+                        <p>加入选择英国实现增长和创新的国际技术公司繁荣社区。受益于我们世界级的人才库、支持性的政策环境以及通过我们广泛的技术网络进入全球市场的机会。</p>
+                        <p>在伦敦、剑桥、曼彻斯特、爱丁堡和其他城市的技术中心进行战略投资，为与领先研究机构的合作和接触多样化人才库提供了独特的机会。</p>
+                        <p>我们的专家团队随时准备提供量身定制的建议和支持，帮助您<strong style="color: var(--uk-blue);">在英国扩展业务</strong>，并利用我们充满活力的数字与技术领域的巨大机遇。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promotional Banner -->
+        <section class="promo-banner">
+            <div class="promo-content">
+                <!-- English Content -->
+                <div class="language-content active" id="englishPromoContent">
+                    <div class="promo-text">
+                        <h2>EXPAND YOUR BUSINESS</h2>
+                        <h3>IN THE UK</h3>
+                    </div>
+                    <div class="promo-graphic">
+                        <div class="uk-flag"></div>
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                </div>
+                
+                <!-- Chinese Content -->
+                <div class="language-content" id="chinesePromoContent">
+                    <div class="promo-text">
+                        <h2>扩展您的业务</h2>
+                        <h3>在英国</h3>
+                    </div>
+                    <div class="promo-graphic">
+                        <div class="uk-flag"></div>
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishFooterContent">
+                        <h2>Contact Us</h2>
+                        <p>Get in touch with our team for tailored support and advice on expanding your digital and technology business in the UK.</p>
+                        <button href="contact.html" >Contact us</button>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseFooterContent">
+                        <h2>联系我们</h2>
+                        <p>与我们的团队联系，获取关于在英国扩展数字与技术业务的定制支持和建议。</p>
+                        <button href="contact.html" >Contact us</button>
+                    </div>
+                </div>
+            
+            <div class="copyright">
+                <!-- English Content -->
+                <div class="language-content active" id="englishCopyright">
+                    <p>© 2025 UK Government. All Rights Reserved.</p>
+                </div>
+                
+                <!-- Chinese Content -->
+                <div class="language-content" id="chineseCopyright">
+                    <p>© 2025 英国政府。保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Toggle Functionality
+        const languageToggle = document.getElementById('languageToggle');
+        const englishContents = document.querySelectorAll('#englishContent, #englishOverviewHeader, #englishOverviewContent, #englishStatsContent, #englishWhyHeader, #englishWhyContent, #englishDevelopmentHeader, #englishDevelopmentContent, #englishInvestmentHeader, #englishInvestmentContent, #englishPromoContent, #englishFooterContent, #englishFooterLinks, #englishCopyright');
+        const chineseContents = document.querySelectorAll('#chineseContent, #chineseOverviewHeader, #chineseOverviewContent, #chineseStatsContent, #chineseWhyHeader, #chineseWhyContent, #chineseDevelopmentHeader, #chineseDevelopmentContent, #chineseInvestmentHeader, #chineseInvestmentContent, #chinesePromoContent, #chineseFooterContent, #chineseFooterLinks, #chineseCopyright');
+        
+        let isEnglish = true;
+        
+        languageToggle.addEventListener('click', function() {
+            if (isEnglish) {
+                // Switch to Chinese
+                englishContents.forEach(content => content.classList.remove('active'));
+                chineseContents.forEach(content => content.classList.add('active'));
+                languageToggle.textContent = 'English';
+                isEnglish = false;
+            } else {
+                // Switch to English
+                chineseContents.forEach(content => content.classList.remove('active'));
+                englishContents.forEach(content => content.classList.add('active'));
+                languageToggle.textContent = '中文';
+                isEnglish = true;
+            }
+        });
+        
+        // Mobile Menu Functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+                header.style.padding = '10px 0';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                header.style.padding = '15px 0';
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

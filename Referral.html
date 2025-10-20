@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program - Invest in GREAT Britain</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <script type="module">
+        import { validateToken } from './authGuard.js';
+
+        (async () => {
+            const isValid = await validateToken();
+            if (!isValid) return; // ✅ Redirect happens automatically
+            console.log("Access Granted ✅");
+            // Continue loading page...
+        })();
+    </script>
+    <style>
+        /* Base Styles */
+        :root {
+            --uk-blue: #012169;
+            --uk-red: #C8102E;
+            --uk-light-blue: #1d4ed8;
+            --uk-gold: #FFD700;
+            --dark-gray: #1e293b;
+            --mid-gray: #64748b;
+            --light-gray: #f1f5f9;
+            --white: #ffffff;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .uk-flag {
+            width: 35px;
+            height: 25px;
+            background: linear-gradient(to right, var(--uk-blue) 33%, var(--white) 33%, var(--white) 66%, var(--uk-red) 66%);
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--uk-blue), var(--uk-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .nav-menu a.active {
+            color: var(--uk-blue);
+        }
+
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--uk-blue);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--uk-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--uk-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--uk-blue) 0%, var(--uk-light-blue) 100%);
+            padding: 130px 0 60px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+
+        /* Referral Content */
+        .referral-container {
+            display: flex;
+            justify-content: center;
+            flex: 1;
+            padding: 30px 0;
+        }
+
+        .referral-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+            padding: 30px 20px;
+        }
+
+        .referral-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .referral-header h2 {
+            font-size: 1.6rem;
+            color: var(--uk-blue);
+            margin-bottom: 10px;
+        }
+
+        .referral-header p {
+            color: var(--mid-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Steps Section */
+        .steps-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 25px 20px;
+            border-radius: 12px;
+            border-left: 5px solid var(--uk-blue);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: var(--uk-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 auto 15px;
+        }
+
+        .step-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
+        }
+
+        .step-card p {
+            color: var(--mid-gray);
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--uk-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--mid-gray);
+            font-size: 0.85rem;
+        }
+
+        /* Referral Link Section */
+        .link-section {
+            background: #f8fafc;
+            padding: 25px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .link-section h3 {
+            color: var(--uk-blue);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .link-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-direction: column;
+        }
+
+        .link-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 15px;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            text-align: center;
+            background: var(--uk-blue);
+            color: white;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--uk-light-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(1, 33, 105, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--uk-blue);
+            color: var(--uk-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--uk-blue);
+            color: white;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--uk-blue);
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            background: var(--uk-light-blue);
+        }
+
+        /* Levels Section */
+        .levels-section {
+            margin-bottom: 30px;
+        }
+
+        .levels-section h3 {
+            color: var(--uk-blue);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .level-card {
+            background: white;
+            padding: 20px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card.bronze {
+            border-top: 4px solid #cd7f32;
+        }
+
+        .level-card.silver {
+            border-top: 4px solid #c0c0c0;
+        }
+
+        .level-card.gold {
+            border-top: 4px solid #ffd700;
+        }
+
+        .level-card.platinum {
+            border-top: 4px solid #e5e4e2;
+        }
+
+        .level-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark-gray);
+        }
+
+        .level-rebate {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--uk-blue);
+            margin-bottom: 10px;
+        }
+
+        .level-desc {
+            color: var(--mid-gray);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-bottom: 30px;
+        }
+
+        .faq-section h3 {
+            color: var(--uk-blue);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 15px;
+            background: #f8fafc;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .faq-answer {
+            padding: 15px;
+            background: white;
+            color: var(--mid-gray);
+            display: none;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 20px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:first-child {
+            border-radius: 6px 0 0 6px;
+            border-right: none;
+        }
+
+        .language-btn:last-child {
+            border-radius: 0 6px 6px 0;
+        }
+
+        .language-btn.active {
+            background: var(--uk-blue);
+            color: white;
+            border-color: var(--uk-blue);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                gap: 10px;
+                width: 100%;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu a {
+                padding: 10px 0;
+                font-size: 16px;
+            }
+
+            .steps-section,
+            .stats-section,
+            .levels-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .link-container {
+                flex-direction: column;
+            }
+
+            .hero {
+                padding: 110px 0 40px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .referral-card {
+                padding: 20px 15px;
+                margin: 0 10px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .language-toggle {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .step-card {
+                padding: 20px 15px;
+            }
+
+            .stat-card {
+                padding: 15px 10px;
+            }
+
+            .stat-value {
+                font-size: 1.3rem;
+            }
+
+            .share-buttons {
+                gap: 8px;
+            }
+
+            .share-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #334155;
+            transition: 0.3s;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--uk-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--uk-light-blue);
+            transform: translateY(-3px);
+        }
+    </style>
+    <style>
+        body {
+
+            padding-bottom: 80px;
+
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            padding: 12px 0;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .bottom-nav .nav-item {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: #8e8e93;
+            text-decoration: none;
+            position: relative;
+            padding: 8px 0 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Active page - blue icon and text */
+        .bottom-nav .nav-item.active {
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item.active i {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item:hover {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item:hover i {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 20px;
+            color: #8e8e93;
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+
+<body class="english-lang">
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="./Assets/photo_2025-10-16_02-26-05.jpg" alt="uk" class="uk-flag">
+                    <div class="logo-text">Invest in GREAT Britain</div>
+                </div>
+                <div class="language-toggle">
+                    <button class="language-btn active" data-lang="en">EN</button>
+                    <button class="language-btn" data-lang="zh">中文</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 data-en="Referral Program" data-zh="推荐计划">Referral Program</h1>
+                <div class="hero-subtitle" data-en="Earn rewards by inviting others to invest in the UK"
+                    data-zh="通过邀请他人投资英国赚取奖励">Earn rewards by inviting others to invest in the UK</div>
+            </div>
+        </div>
+    </section>
+    <nav class="bottom-nav">
+        <a href="Dashboard.html" class="nav-item">
+            <i class="fas fa-tachometer-alt"></i>
+            Dashboard</a>
+        <a href="withdrawal.html" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            Withdraw</a>
+        <a href="crypto.html" class="nav-item">
+            <i class="fas fa-money-bill-wave"></i>
+            Deposits</a>
+        <a href="Investment.html" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            Invest</a>
+        <a href="Referral.html" class="nav-item active">
+            <i class="fas fa-user-plus"></i>Refferal</a>
+
+    </nav>
+    <div class="container">
+        <div class="referral-container">
+            <div class="referral-card">
+                <div class="referral-header">
+                    <h2 data-en="Share & Earn Rewards" data-zh="分享并赚取奖励">Share & Earn Rewards</h2>
+                    <p data-en="Invite friends and partners to invest in the UK and earn commission on their investments"
+                        data-zh="邀请朋友和合作伙伴投资英国，并从他们的投资中获得佣金">Invite friends and partners to invest in the UK and earn
+                        commission on their investments</p>
+                </div>
+
+                <!-- Steps Section -->
+                <div class="steps-section">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3 data-en="Acquire Your Referral Link" data-zh="获取您的推荐链接">Acquire Your Referral Link</h3>
+                        <p data-en="Get your unique referral link from your dashboard" data-zh="从您的仪表板获取独特的推荐链接">Get
+                            your unique referral link from your dashboard</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3 data-en="Distribute the Link" data-zh="分发链接">Distribute the Link</h3>
+                        <p data-en="Share your link through social media, email, or directly with contacts"
+                            data-zh="通过社交媒体、电子邮件或直接与联系人分享您的链接">Share your link through social media, email, or directly
+                            with contacts</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3 data-en="Reap the Financial Benefits" data-zh="获得经济收益">Reap the Financial Benefits</h3>
+                        <p data-en="Earn commissions on your referrals' investments and activities"
+                            data-zh="从推荐人的投资和活动中赚取佣金">Earn commissions on your referrals' investments and activities</p>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label" data-en="Registrations" data-zh="注册量">Registrations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.00 USDT</div>
+                        <div class="stat-label" data-en="Total Income" data-zh="总收入">Total Income</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.00 USDT</div>
+                        <div class="stat-label" data-en="Total Team Recharge" data-zh="团队总充值">Total Team Recharge</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.00 USDT</div>
+                        <div class="stat-label" data-en="Total Team Withdrawal" data-zh="团队总提现">Total Team Withdrawal
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referral Link Section -->
+                <div class="link-section">
+                    <h3 data-en="Your Referral Information" data-zh="您的推荐信息">Your Referral Information</h3>
+
+                    <div class="stat-card" style="max-width: 300px; margin: 0 auto 20px;">
+                        <div class="stat-label" data-en="Your Level" data-zh="您的等级">Your Level</div>
+                        <div class="stat-value" style="color: #cd7f32;">Bronze</div>
+                    </div>
+
+                    <div style="margin-bottom: 8px; font-weight: 500;" data-en="Referral Link" data-zh="推荐链接">Referral
+                        Link</div>
+                    <div class="link-container">
+                        <input type="text" class="link-input" value="loading..." readonly>
+                        <button class="btn copy-btn" data-en="Copy" data-zh="复制">Copy</button>
+                    </div>
+
+                    <div style="margin-bottom: 8px; font-weight: 500;" data-en="Referral Code" data-zh="推荐码">Referral
+                        Code</div>
+                    <div class="link-container">
+                        <input type="text" class="link-input" value="Loading..." readonly>
+                        <button class="btn copy-btn" data-en="Copy" data-zh="复制">Copy</button>
+                    </div>
+
+                    <div class="share-buttons">
+                        <a href="#" class="share-btn">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="share-btn">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="share-btn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="share-btn">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="share-btn">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Levels Section -->
+                <div class="levels-section">
+                    <h3 data-en="Referral Commission Levels" data-zh="推荐佣金等级">Referral Commission Levels</h3>
+                    <div class="levels-grid">
+                        <div class="level-card bronze">
+                            <div class="level-name" data-en="Level 1" data-zh="一级">Level 1</div>
+                            <div class="level-rebate">5%</div>
+                            <div class="level-desc" data-en="Recharge Rebate:5%" data-zh="充值返利: 5%">Recharge Rebate: 5%
+                            </div>
+                        </div>
+                        <div class="level-card silver">
+                            <div class="level-name" data-en="Level 2" data-zh="二级">Level 2</div>
+                            <div class="level-rebate">3%</div>
+                            <div class="level-desc" data-en="Recharge Rebate: 2%" data-zh="充值返利: 3%">Recharge Rebate: 3%
+                            </div>
+                        </div>
+                        <div class="level-card gold">
+                            <div class="level-name" data-en="Level 3" data-zh="三级">Level 3</div>
+                            <div class="level-rebate">1%</div>
+                            <div class="level-desc" data-en="Recharge Rebate: 1%" data-zh="充值返利: 1%">Recharge Rebate: 1%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="faq-section">
+                    <h3 data-en="Frequently Asked Questions" data-zh="常见问题">Frequently Asked Questions</h3>
+
+                    <div class="faq-item">
+                        <div class="faq-question" data-en="How does the promotion program work?" data-zh="推广计划如何运作？">
+                            How does the promotion program work? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-en="Our referral program allows you to earn commissions by inviting others to invest through the UK Investment Platform. You'll receive a percentage of their investment activity based on your referral level."
+                                data-zh="我们的推荐计划允许您通过邀请他人通过英国投资平台进行投资来赚取佣金。根据您的推荐等级，您将获得其投资活动的一定百分比。">
+                                Our referral program allows you to earn commissions by inviting others to invest through
+                                the UK Investment Platform. You'll receive a percentage of their investment activity
+                                based on your referral level.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question"
+                            data-en="What are the benefits of participating in an outreach program?"
+                            data-zh="参加推广计划有哪些好处？">
+                            What are the benefits of participating in an outreach program? <i
+                                class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-en="By participating in our referral program, you can earn substantial passive income, help others discover UK investment opportunities, and contribute to the growth of the UK economy while being rewarded for your efforts."
+                                data-zh="通过参与我们的推荐计划，您可以赚取可观的被动收入，帮助他人发现英国投资机会，为英国经济的增长做出贡献，同时您的努力也会得到回报。">
+                                By participating in our referral program, you can earn substantial passive income, help
+                                others discover UK investment opportunities, and contribute to the growth of the UK
+                                economy while being rewarded for your efforts.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" data-en="How do I make payment for the promotional program?"
+                            data-zh="如何支付推广计划？">
+                            How do I make payment for the promotional program? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-en="There are no costs to participate in our referral program. It's completely free to join. You'll earn commissions from your referrals' activities, not pay anything to participate."
+                                data-zh="参加我们的推荐计划无需任何费用。完全免费加入。您将从推荐人的活动中赚取佣金，无需支付任何参与费用。">
+                                There are no costs to participate in our referral program. It's completely free to join.
+                                You'll earn commissions from your referrals' activities, not pay anything to
+                                participate.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" data-en="Will funds earned through promotional programs be pledged?"
+                            data-zh="通过推广计划赚取的资金会被质押吗？">
+                            Will funds earned through promotional programs be pledged? <i
+                                class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-en="No, the funds you earn through our referral program are yours to keep. They are not pledged or locked in any way. You can withdraw your earnings according to our withdrawal policy."
+                                data-zh="不会，您通过我们的推荐计划赚取的资金完全属于您。它们不会被质押或以任何方式锁定。您可以根据我们的提现政策提取您的收益。">
+                                No, the funds you earn through our referral program are yours to keep. They are not
+                                pledged or locked in any way. You can withdraw your earnings according to our withdrawal
+                                policy.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-en="Quick Links" data-zh="快速链接">Quick Links</h3>
+                    <ul>
+                        <li><a href="#" data-en="GOV.UK" data-zh="GOV.UK">GOV.UK</a></li>
+                        <li><a href="#" data-en="Business Support" data-zh="商业支持">Business Support</a></li>
+                        <li><a href="#" data-en="Investment Opportunities" data-zh="投资机会">Investment Opportunities</a>
+                        </li>
+                        <li><a href="https://pdflink.to/upliftrenewable1/">WhitePaper</a></li>
+                        <li><a href="#" data-en="Sector Guides" data-zh="行业指南">Sector Guides</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 data-en="Key Sectors" data-zh="关键行业">Key Sectors</h3>
+                    <ul>
+                        <li><a href="#" data-en="Advanced Manufacturing" data-zh="先进制造业">Advanced Manufacturing</a></li>
+                        <li><a href="#" data-en="Clean Energy" data-zh="清洁能源">Clean Energy</a></li>
+                        <li><a href="#" data-en="Life Sciences" data-zh="生命科学">Life Sciences</a></li>
+                        <li><a href="#" data-en="Digital & AI" data-zh="数字与人工智能">Digital & AI</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 data-en="Support Services" data-zh="支持服务">Support Services</h3>
+                    <ul>
+                        <li><a href="#" data-en="Investment Advisory" data-zh="投资咨询">Investment Advisory</a></li>
+                        <li><a href="#" data-en="Market Research" data-zh="市场研究">Market Research</a></li>
+                        <li><a href="#" data-en="Regulatory Guidance" data-zh="法规指导">Regulatory Guidance</a></li>
+                        <li><a href="#" data-en="Business Networks" data-zh="商业网络">Business Networks</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 data-en="Contact Information" data-zh="联系信息">Contact Information</h3>
+                    <ul>
+                        <li><a href="mailto:invest@great.gov.uk">invest@great.gov.uk</a></li>
+                        <li><a href="tel:+44-20-7215-5000">+44 20 7215 5000</a></li>
+                        <li><a href="#" data-en="Schedule Consultation" data-zh="安排咨询">Schedule Consultation</a></li>
+                        <li><a href="#" data-en="Request Information" data-zh="请求信息">Request Information</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-en="&copy; 2024 UK Government - Department for Business and Trade. All rights reserved."
+                    data-zh="&copy; 2024 英国政府 - 商业贸易部。保留所有权利。">&copy; 2024 UK Government - Department for Business and
+                    Trade. All rights reserved.</p>
+                <p data-en="Part of the UK Modern Industrial Strategy initiative." data-zh="英国现代工业战略倡议的一部分。">Part of the
+                    UK Modern Industrial Strategy initiative.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <div class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <script>
+        // Global referral data with default values
+        let referralData = {
+            stats: {
+                registrations: 0,
+                totalIncome: 0,
+                teamRecharge: 0,
+                teamWithdrawal: 0
+            },
+            userLevel: 'Bronze',
+            referralLink: '',
+            referralCode: ''
+        };
+
+        async function fetchReferralInfo() {
+            try {
+                const response = await axios.get(
+                    'https://uk-investment-backend.onrender.com/api/users/profile',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+                const { referralCode, referralEarnings } = response.data;
+                const referralLink = `${window.location.origin}/referral/${referralCode}`;
+                const totalIncome = referralEarnings.reduce((sum, earning) => sum + earning.amount, 0);
+                updateReferralLinkUI(referralCode, referralLink, totalIncome);
+            } catch (error) {
+                console.error('Failed to fetch referral info:', error);
+            }
+        }
+        function updateReferralLinkUI(referralCode, referralLink, totalIncome) {
+            // Update referral link input
+            document.querySelectorAll('.link-input')[0].value = referralLink;
+            // Update referral code input
+            document.querySelectorAll('.link-input')[1].value = referralCode;
+            // Update total income from referral earnings
+            document.querySelectorAll('.stat-card')[1 ].querySelector('.stat-value').textContent = totalIncome.toFixed(2) + ' USDT';
+        }
+
+        async function
+            fetchReferralStats() {
+            try {
+                const response = await axios.get(
+                    'https://uk-investment-backend.onrender.com/api/referrals/stats',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+                // Response structure: { clicks: number, conversions: number, conversionRate: number }
+                // Map: visits = clicks, registrations = conversions
+                const stats = {
+                    registrations: response.data.conversions || 0,
+                    teamRecharge: response.data.totalDeposits.$numberDecimal || 0,
+                    teamWithdrawal: response.data.totalWithdrawals.$numberDecimal || 0
+                };
+                updateReferralStatsUI(stats);
+            } catch (error) {
+                console.error('Failed to fetch referral stats:', error);
+                // Fallback to localStorage
+                updateReferralStatsUI(referralData.stats);
+            }
+        }
+
+        function updateReferralStatsUI(stats) {
+            document.querySelectorAll('.stat-card')[0].querySelector('.stat-value').textContent = stats.registrations || 0;
+            document.querySelectorAll('.stat-card')[2].querySelector('.stat-value').textContent = (stats.teamRecharge || 0) + ' USDT';
+            document.querySelectorAll('.stat-card')[3].querySelector('.stat-value').textContent = (stats.teamWithdrawal || 0) + ' USDT';
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // Load referral data
+            loadReferralData();
+            fetchReferralStats();
+            fetchReferralInfo();
+            // Initialize other functionality
+            initLanguage();
+            initReferralFunctionality();
+
+            // Fix navigation active state
+            const currentPage = window.location.pathname.split('/').pop() || 'Referral.html';
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+
+        // Load user referral data (simulated for fallback)
+        function loadReferralData() {
+            // Try to load from localStorage
+            const savedReferralData = localStorage.getItem('referralData');
+            if (savedReferralData) {
+                referralData = JSON.parse(savedReferralData);
+            } else {
+                // Default values
+                referralData = {
+                    stats: {
+                        registrations: 0,
+                        totalIncome: 0,
+                        teamRecharge: 0,
+                        teamWithdrawal: 0
+                    },
+                    userLevel: 'Bronze',
+                    referralLink: '',
+                    referralCode: ''
+                };
+            }
+
+            updateReferralUI();
+        }
+
+        // Update the UI with referral data (now primarily used for initial load or fallback)
+        function updateReferralUI() {
+            if (!referralData) return;
+            document.querySelectorAll('.stat-card')[0].querySelector('.stat-value').textContent = referralData.stats.registrations;
+            document.querySelectorAll('.stat-card')[2].querySelector('.stat-value').textContent = (Number(referralData.stats.teamRecharge) || 0).toFixed(2) + ' USDT';
+            document.querySelectorAll('.stat-card')[3].querySelector('.stat-value').textContent = (Number(referralData.stats.teamWithdrawal) || 0).toFixed(2) + ' USDT';
+
+            // Update user level
+            const levelElement = document.querySelector('.stat-card[style*="max-width: 300px"] .stat-value');
+            if (levelElement) {
+                levelElement.textContent = referralData.userLevel;
+            }
+
+            // Update referral link and code (will be overridden by fetchReferralInfo)
+            document.querySelectorAll('.link-input')[0].value = referralData.referralLink;
+            document.querySelectorAll('.link-input')[1].value = referralData.referralCode;
+        }
+
+        // Initialize referral functionality
+        function initReferralFunctionality() {
+            // Track referral page visit
+            initCopyButtons();
+
+            initShareButtons();
+
+            // Load commission levels
+            loadCommissionLevels();
+        }
+
+        // Track referral page visit (simulated)
+
+        // Language switching functionality
+        function switchLanguage(lang) {
+            // Update body class for language-specific styling
+            document.body.className = lang + '-lang';
+
+            // Update all elements with data attributes
+            document.querySelectorAll('[data-en], [data-zh]').forEach(element => {
+                if (element.hasAttribute('data-' + lang)) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = element.getAttribute('data-' + lang);
+                    } else {
+                        element.textContent = element.getAttribute('data-' + lang);
+                    }
+                }
+            });
+
+            // Update active language button
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Store language preference
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Initialize language based on preference or browser language
+        function initLanguage() {
+            const savedLanguage = localStorage.getItem('preferred-language');
+            const browserLanguage = navigator.language || navigator.userLanguage;
+
+            if (savedLanguage) {
+                switchLanguage(savedLanguage);
+            } else if (browserLanguage.startsWith('zh')) {
+                switchLanguage('zh');
+            } else {
+                switchLanguage('en');
+            }
+        }
+
+        // Language toggle event listeners
+        document.querySelectorAll('.language-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const lang = this.getAttribute('data-lang');
+                switchLanguage(lang);
+            });
+        });
+
+        // Enhanced copy functionality
+        function initCopyButtons() {
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const input = this.parentElement.querySelector('.link-input');
+                    input.select();
+                    input.setSelectionRange(0, 99999); // For mobile devices
+
+                    // Modern clipboard API
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(input.value).then(() => {
+                            showCopyFeedback(this);
+                        }).catch(err => {
+                            // Fallback for older browsers
+                            document.execCommand('copy');
+                            showCopyFeedback(this);
+                        });
+                    } else {
+                        // Fallback for older browsers
+                        document.execCommand('copy');
+                        showCopyFeedback(this);
+                    }
+                });
+            });
+        }
+
+        function showCopyFeedback(button) {
+            const originalText = button.textContent;
+            const isEnglish = document.body.classList.contains('english-lang');
+            button.textContent = isEnglish ? 'Copied!' : '已复制!';
+            button.style.background = 'var(--success)';
+
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 2000);
+        }
+
+        // Share functionality
+        function initShareButtons() {
+            document.querySelectorAll('.share-btn').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const platform = this.querySelector('i').className;
+                    shareReferralLink(platform);
+                });
+            });
+        }
+
+        function shareReferralLink(platform) {
+            const referralLink = referralData ? referralData.referralLink : 'https://invest.uk.gov/referral/abc123';
+            const referralCode = referralData ? referralData.referralCode : 'ABC123';
+            const isEnglish = document.body.classList.contains('english-lang');
+
+            const message = isEnglish ?
+                `Join me in investing in the UK! Use my referral code ${referralCode} for special benefits: ${referralLink}` :
+                `和我一起投资英国！使用我的推荐码 ${referralCode} 获得特别优惠：${referralLink}`;
+
+            let shareUrl = '';
+
+            if (platform.includes('facebook')) {
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
+            } else if (platform.includes('twitter')) {
+                shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+            } else if (platform.includes('linkedin')) {
+                shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralLink)}`;
+            } else if (platform.includes('whatsapp')) {
+                shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+            } else if (platform.includes('envelope')) {
+                shareUrl = `mailto:?subject=${encodeURIComponent(isEnglish ? 'UK Investment Opportunity' : '英国投资机会')}&body=${encodeURIComponent(message)}`;
+            }
+
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
+        }
+
+        // Load commission levels (simulated)
+        function loadCommissionLevels() {
+            const levels = [
+                { level: 1, name: "Level 1", rebate: 5, description: "Recharge Rebate: 5%" },
+                { level: 2, name: "Level 2", rebate: 3, description: "Recharge Rebate: 3%" },
+                { level: 3, name: "Level 3", rebate: 1, description: "Recharge Rebate: 1%" }
+            ];
+
+            updateCommissionLevelsUI(levels);
+        }
+
+        function updateCommissionLevelsUI(levels) {
+            const levelsGrid = document.querySelector('.levels-grid');
+            if (!levelsGrid) return;
+
+            levelsGrid.innerHTML = levels.map(level => `
+                <div class="level-card ${getLevelClass(level.level)}">
+                    <div class="level-name">${level.name}</div>
+                    <div class="level-rebate">${level.rebate}%</div>
+                    <div class="level-desc">${level.description}</div>
+                </div>
+            `).join('');
+        }
+
+        function getLevelClass(level) {
+            switch (level) {
+                case 1: return 'bronze';
+                case 2: return 'silver';
+                case 3: return 'gold';
+                default: return '';
+            }
+        }
+
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function () {
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('i');
+
+                // Close all other FAQ items
+                document.querySelectorAll('.faq-answer').forEach(ans => {
+                    if (ans !== answer && ans.classList.contains('active')) {
+                        ans.classList.remove('active');
+                        ans.previousElementSibling.querySelector('i').classList.remove('fa-chevron-up');
+                        ans.previousElementSibling.querySelector('i').classList.add('fa-chevron-down');
+                    }
+                });
+
+                // Toggle active class on answer
+                answer.classList.toggle('active');
+
+                // Toggle icon
+                if (answer.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                navMenu.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const isClickInsideNav = navMenu.contains(event.target);
+            const isClickOnToggle = mobileToggle.contains(event.target);
+
+            if (!isClickInsideNav && !isClickOnToggle && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                mobileToggle.classList.remove('active');
+            }
+        });
+
+        // Back to top functionality
+        const backToTopButton = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', function () {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Add touch-friendly improvements
+        document.querySelectorAll('.btn, .share-btn, .faq-question').forEach(element => {
+            element.style.webkitTapHighlightColor = 'transparent';
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Track your investment performance and returns with Invest in GREAT Britain"
+    />
+    <title>Investment Products History - Invest in GREAT Britain</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script type="module">
+        import { validateToken } from './authGuard.js';
+
+        (async () => {
+            const isValid = await validateToken();
+            if (!isValid) return; // ✅ Redirect happens automatically
+            console.log("Access Granted ✅");
+            // Continue loading page...
+        })();
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      /* CSS Variables for consistent theming */
+      :root {
+        --uk-blue: #012169;
+        --uk-red: #c8102e;
+        --uk-light-blue: #1d4ed8;
+        --uk-gold: #ffd700;
+        --dark-gray: #1e293b;
+        --mid-gray: #64748b;
+        --light-gray: #f1f5f9;
+        --white: #ffffff;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --border-radius: 8px;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        --transition: all 0.3s ease;
+      }
+
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        color: var(--dark-gray);
+        background-color: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        font-size: 14px;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      a {
+        color: var(--uk-blue);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      a:hover,
+      a:focus {
+        color: var(--uk-red);
+      }
+
+      button {
+        cursor: pointer;
+        font-family: inherit;
+        transition: var(--transition);
+      }
+
+      /* Container */
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      /* Header */
+      header {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        padding: 12px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        flex: 1;
+      }
+
+      .uk-flag {
+        width: 32px;
+        height: 24px;
+        background: linear-gradient(
+          to right,
+          var(--uk-blue) 33%,
+          var(--white) 33%,
+          var(--white) 66%,
+          var(--uk-red) 66%
+        );
+        border-radius: 3px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-size: 16px;
+        font-weight: 800;
+        background: linear-gradient(45deg, var(--uk-blue), var(--uk-red));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Navigation */
+      nav {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-menu {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        gap: 15px;
+        z-index: 999;
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .nav-menu a {
+        text-decoration: none;
+        color: var(--dark-gray);
+        font-weight: 500;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--light-gray);
+        font-size: 16px;
+      }
+
+      .nav-menu a:last-child {
+        border-bottom: none;
+      }
+
+      .nav-menu a.active {
+        color: var(--uk-blue);
+        font-weight: 600;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(
+          135deg,
+          var(--uk-blue) 0%,
+          var(--uk-light-blue) 100%
+        );
+        padding: 100px 0 40px;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 10px;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        line-height: 1.3;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 20px;
+        font-weight: 500;
+        opacity: 0.95;
+        line-height: 1.4;
+      }
+
+      /* History Section */
+      .history-section {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 20px 15px;
+        margin-bottom: 30px;
+      }
+
+      .history-section h2 {
+        font-size: 1.4rem;
+        color: var(--uk-blue);
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .history-filters {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .history-filters::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-btn {
+        padding: 10px 16px;
+        background: var(--light-gray);
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+        white-space: nowrap;
+        flex-shrink: 0;
+        font-size: 13px;
+      }
+
+      .filter-btn:hover,
+      .filter-btn:focus {
+        background: #e2e8f0;
+      }
+
+      .filter-btn.active {
+        background: var(--uk-blue);
+        color: white;
+      }
+
+      /* Investment Cards */
+      .investment-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .investment-card {
+        background: #f8fafc;
+        border-radius: var(--border-radius);
+        padding: 18px;
+        border-left: 4px solid var(--uk-blue);
+        transition: var(--transition);
+      }
+
+      .investment-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+
+      .investment-name {
+        font-weight: 700;
+        color: var(--dark-gray);
+        font-size: 16px;
+      }
+
+      .investment-status {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .status-completed {
+        background: #d1fae5;
+        color: var(--success);
+      }
+
+      .status-active {
+        background: #dbeafe;
+        color: var(--uk-blue);
+      }
+
+      .status-pending {
+        background: #fef3c7;
+        color: var(--warning);
+      }
+
+      .card-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .detail-label {
+        font-size: 12px;
+        color: var(--mid-gray);
+        margin-bottom: 4px;
+      }
+
+      .detail-value {
+        font-weight: 600;
+        color: var(--dark-gray);
+        font-size: 14px;
+      }
+
+      .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .returns {
+        font-weight: 700;
+        color: var(--success);
+        font-size: 16px;
+      }
+
+      .view-details-btn {
+        background: var(--uk-blue);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .view-details-btn:hover,
+      .view-details-btn:focus {
+        background: var(--uk-light-blue);
+        transform: translateY(-1px);
+      }
+
+      /* Loading State */
+      .loading-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--mid-gray);
+        display: none;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(1, 33, 105, 0.2);
+        border-radius: 50%;
+        border-top-color: var(--uk-blue);
+        animation: spin 1s ease-in-out infinite;
+        margin-bottom: 15px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--mid-gray);
+        display: none;
+      }
+
+      .empty-state i {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        color: #cbd5e1;
+      }
+
+      .empty-state h4 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--dark-gray);
+      }
+
+      /* Footer */
+      footer {
+        background: #1e293b;
+        color: white;
+        padding: 40px 0 20px;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .footer-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        color: white;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 8px;
+      }
+
+      .footer-section ul li a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: var(--transition);
+        font-size: 14px;
+      }
+
+      .footer-section ul li a:hover {
+        color: white;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #374151;
+        padding-top: 20px;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 13px;
+      }
+
+      /* Mobile Menu Toggle */
+      .mobile-menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        cursor: pointer;
+        padding: 8px;
+        margin-left: 10px;
+        background: none;
+        border: none;
+      }
+
+      .mobile-menu-toggle span {
+        width: 20px;
+        height: 2px;
+        background: #334155;
+        transition: 0.3s;
+      }
+
+      .mobile-menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(4px, 4px);
+      }
+
+      .mobile-menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .mobile-menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      /* Language Toggle */
+      .language-toggle {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+      }
+
+      .language-btn {
+        background: transparent;
+        border: 1px solid #cbd5e1;
+        padding: 6px 10px;
+        border-radius: 0;
+        cursor: pointer;
+        font-size: 12px;
+        transition: var(--transition);
+      }
+
+      .language-btn:first-child {
+        border-radius: 6px 0 0 6px;
+        border-right: none;
+      }
+
+      .language-btn:last-child {
+        border-radius: 0 6px 6px 0;
+      }
+
+      .language-btn.active {
+        background: var(--uk-blue);
+        color: white;
+        border-color: var(--uk-blue);
+      }
+
+      /* Skip to main content link for accessibility */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--uk-blue);
+        color: white;
+        padding: 8px;
+        z-index: 10000;
+        text-decoration: none;
+        border-radius: 0 0 4px 4px;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+
+      /* Focus styles for accessibility */
+      button:focus,
+      a:focus {
+        outline: 2px solid var(--uk-blue);
+        outline-offset: 2px;
+      }
+
+      /* Tablet Styles */
+      @media (min-width: 768px) {
+        body {
+          font-size: 16px;
+        }
+
+        .container {
+          padding: 0 20px;
+        }
+
+        header {
+          padding: 15px 0;
+        }
+
+        .logo {
+          gap: 15px;
+        }
+
+        .uk-flag {
+          width: 40px;
+          height: 30px;
+        }
+
+        .logo-text {
+          font-size: 18px;
+        }
+
+        .nav-menu {
+          display: flex;
+          position: static;
+          flex-direction: row;
+          padding: 0;
+          box-shadow: none;
+          gap: 25px;
+          max-height: none;
+          overflow-y: visible;
+          background: transparent;
+        }
+
+        .nav-menu a {
+          padding: 0;
+          border-bottom: none;
+          font-size: 16px;
+          position: relative;
+        }
+
+        .nav-menu a.active::after {
+          content: "";
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: var(--uk-blue);
+        }
+
+        .mobile-menu-toggle {
+          display: none;
+        }
+
+        .hero {
+          padding: 140px 0 60px;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1.3rem;
+        }
+
+        .history-section {
+          padding: 30px;
+          margin-bottom: 50px;
+        }
+
+        .history-section h2 {
+          font-size: 1.8rem;
+        }
+
+        .history-filters {
+          gap: 15px;
+          flex-wrap: wrap;
+          overflow-x: visible;
+        }
+
+        .filter-btn {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+
+        .investment-cards {
+          gap: 20px;
+        }
+
+        .investment-card {
+          padding: 25px;
+        }
+
+        .card-details {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+        }
+
+        .footer-content {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 40px;
+        }
+      }
+
+      /* Desktop Styles */
+      @media (min-width: 1024px) {
+        .footer-content {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .investment-cards {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+      }
+
+      /* Large Desktop Styles */
+      @media (min-width: 1200px) {
+        .container {
+          max-width: 1200px;
+        }
+      }
+    </style>
+        <style>
+
+body {
+  
+            padding-bottom: 80px;
+            
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            padding: 12px 0;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .bottom-nav .nav-item {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: #8e8e93;
+            text-decoration: none;
+            position: relative;
+            padding: 8px 0 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Active page - blue icon and text */
+        .bottom-nav .nav-item.active {
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item.active i {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item:hover {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item:hover i {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 20px;
+            color: #8e8e93;
+            transition: all 0.2s ease;
+        }
+    </style>
+  </head>
+  <body class="english-lang">
+    <a
+      href="#main-content"
+      class="skip-link"
+      data-en="Skip to main content"
+      data-zh="跳转到主要内容"
+      >Skip to main content</a
+    >
+
+    <header role="banner">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <div class="uk-flag" aria-label="UK Flag"></div>
+            <div class="logo-text">Invest in GREAT Britain</div>
+          </div>
+
+          <div style="display: flex; align-items: center">
+            <div class="language-toggle">
+              <button
+                class="language-btn active"
+                data-lang="en"
+                aria-label="English"
+                aria-pressed="true"
+              >
+                EN
+              </button>
+              <button
+                class="language-btn"
+                data-lang="zh"
+                aria-label="Chinese"
+                aria-pressed="false"
+              >
+                中文
+              </button>
+            </div>
+            </div>
+          </div>     
+        </div>
+      </div>
+    </header>
+      <nav class="bottom-nav">
+            <a href="Dashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard</a>
+            <a href="withdrawal.html" class="nav-item">
+                <i class="fas fa-wallet"></i> 
+                Withdraw</a>
+            <a href="crypto.html" class="nav-item">
+                <i class="fas fa-money-bill-wave"></i>
+                Deposits</a>
+            <a href="Investment.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                Invest</a>
+            <a href="Referral.html" class="nav-item">
+                <i class="fas fa-user-plus"></i>Refferal</a>
+
+        </nav> 
+    <main id="main-content" role="main">
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="container">
+          <div class="hero-content">
+            <h1
+              id="hero-heading"
+              data-en="Investment History"
+              data-zh="投资历史"
+            >
+              Investment History
+            </h1>
+            <div
+              class="hero-subtitle"
+              data-en="Track your investment performance and returns"
+              data-zh="跟踪您的投资表现和回报"
+            >
+              Track your investment performance and returns
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="container">
+        <section class="history-section" aria-labelledby="history-heading">
+          <h2
+            id="history-heading"
+            data-en="Your Investment History"
+            data-zh="您的投资历史"
+          >
+            Your Investment History
+          </h2>
+
+          <div
+            class="history-filters"
+            role="group"
+            aria-label="Filter investments by status"
+          >
+            <button
+              class="filter-btn active"
+              data-filter="all"
+              data-en="All"
+              data-zh="全部"
+              aria-label="Filter all"
+              aria-pressed="true"
+            >
+              All
+            </button>
+            <button
+              class="filter-btn"
+              data-filter="active"
+              data-en="Active"
+              data-zh="进行中"
+              aria-label="Filter active"
+              aria-pressed="false"
+            >
+              Active
+            </button>
+            <button
+              class="filter-btn"
+              data-filter="completed"
+              data-en="Completed"
+              data-zh="已完成"
+              aria-label="Filter completed"
+              aria-pressed="false"
+            >
+              Completed
+            </button>
+            <button
+              class="filter-btn"
+              data-filter="pending"
+              data-en="Pending"
+              data-zh="待处理"
+              aria-label="Filter pending"
+              aria-pressed="false"
+            >
+              Pending
+            </button>
+          </div>
+
+          <!-- Loading state -->
+          <div class="loading-state" id="loading-state">
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p
+              data-en="Loading your investments..."
+              data-zh="正在加载您的投资记录..."
+            >
+              Loading your investments...
+            </p>
+          </div>
+
+          <div
+            class="investment-cards"
+            id="investment-cards"
+            role="list"
+            aria-label="List of investments"
+          >
+            <!-- Investment cards will be populated by JavaScript -->
+          </div>
+
+          <!-- Empty state -->
+          <div class="empty-state" id="empty-state">
+            <i class="fas fa-folder-open" aria-hidden="true"></i>
+            <h4 data-en="No investments found" data-zh="未找到投资记录">
+              No investments found
+            </h4>
+            <p
+              data-en="Try adjusting your filters or make your first investment"
+              data-zh="尝试调整筛选条件或进行首次投资"
+            >
+              Try adjusting your filters or make your first investment
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer role="contentinfo">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3 data-en="Quick Links" data-zh="快速链接">Quick Links</h3>
+            <ul>
+              <li><a href="#" data-en="GOV.UK" data-zh="GOV.UK">GOV.UK</a></li>
+              <li>
+                <a href="#" data-en="Business Support" data-zh="商业支持"
+                  >Business Support</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  data-en="Investment Opportunities"
+                  data-zh="投资机会"
+                  >Investment Opportunities</a
+                >
+              </li>
+              <li>
+                <a href="#" data-en="Sector Guides" data-zh="行业指南"
+                  >Sector Guides</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3 data-en="Key Sectors" data-zh="关键行业">Key Sectors</h3>
+            <ul>
+              <li>
+                <a
+                  href="#"
+                  data-en="Advanced Manufacturing"
+                  data-zh="先进制造业"
+                  >Advanced Manufacturing</a
+                >
+              </li>
+              <li>
+                <a href="#" data-en="Clean Energy" data-zh="清洁能源"
+                  >Clean Energy</a
+                >
+              </li>
+              <li>
+                <a href="#" data-en="Life Sciences" data-zh="生命科学"
+                  >Life Sciences</a
+                >
+              </li>
+              <li>
+                <a href="#" data-en="Digital & AI" data-zh="数字与人工智能"
+                  >Digital & AI</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3 data-en="Support Services" data-zh="支持服务">
+              Support Services
+            </h3>
+            <ul>
+              <li>
+                <a href="#" data-en="Investment Advisory" data-zh="投资咨询"
+                  >Investment Advisory</a
+                >
+              </li>
+              <li>
+                <a href="#" data-en="Market Research" data-zh="市场研究"
+                  >Market Research</a
+                >
+              </li>
+              <li>
+                <a href="#" data-en="Regulatory Guidance" data-zh="法规指导"
+                  >Regulatory Guidance</a
+                >
+              </li>
+              <li>
+                <a href="#" data-en="Business Networks" data-zh="商业网络"
+                  >Business Networks</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3 data-en="Contact Information" data-zh="联系信息">
+              Contact Information
+            </h3>
+            <ul>
+              <li>
+                <a href="mailto:invest@great.gov.uk">invest@great.gov.uk</a>
+              </li>
+              <li><a href="tel:+44-20-7215-5000">+44 20 7215 5000</a></li>
+              <li>
+                <a href="#" data-en="Schedule Consultation" data-zh="安排咨询"
+                  >Schedule Consultation</a
+                >
+              </li>
+              <li>
+                <a href="#" data-en="Request Information" data-zh="请求信息"
+                  >Request Information</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p
+            data-en="&copy; 2024 UK Government - Department for Business and Trade. All rights reserved."
+            data-zh="&copy; 2024 英国政府 - 商业贸易部。保留所有权利。"
+          >
+            &copy; 2024 UK Government - Department for Business and Trade. All
+            rights reserved.
+          </p>
+          <p
+            data-en="Part of the UK Modern Industrial Strategy initiative."
+            data-zh="英国现代工业战略倡议的一部分。"
+          >
+            Part of the UK Modern Industrial Strategy initiative.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Global variable to store investments data
+      let investments = [];
+
+      // Logout function
+      function logout() {
+        localStorage.removeItem('jwt');
+        // Redirect to login
+        window.location.href = 'login.html';
+      }
+
+      // Language switching functionality
+      function switchLanguage(lang) {
+        document.body.className = lang + "-lang";
+
+        // Update all static elements with data attributes
+        document.querySelectorAll("[data-en], [data-zh]").forEach((element) => {
+          if (element.hasAttribute("data-" + lang)) {
+            if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+              element.placeholder = element.getAttribute("data-" + lang);
+            } else {
+              element.textContent = element.getAttribute("data-" + lang);
+            }
+          }
+        });
+
+        // Update active language button
+        document.querySelectorAll(".language-btn").forEach((btn) => {
+          if (btn.getAttribute("data-lang") === lang) {
+            btn.classList.add("active");
+            btn.setAttribute("aria-pressed", "true");
+          } else {
+            btn.classList.remove("active");
+            btn.setAttribute("aria-pressed", "false");
+          }
+        });
+
+        // Update dynamic content (investment cards)
+        updateInvestmentCardsLanguage(lang);
+
+        // Store language preference
+        localStorage.setItem("preferred-language", lang);
+      }
+
+      function initLanguage() {
+        const savedLanguage = localStorage.getItem("preferred-language");
+        const browserLanguage = navigator.language || navigator.userLanguage;
+
+        if (savedLanguage) {
+          switchLanguage(savedLanguage);
+        } else if (browserLanguage.startsWith("zh")) {
+          switchLanguage("zh");
+        } else {
+          switchLanguage("en");
+        }
+      }
+
+      // Create investment cards with proper language support
+      function createInvestmentCard(investment, lang) {
+        const statusText = {
+          completed: { en: "Completed", zh: "已完成" },
+          active: { en: "Active", zh: "进行中" },
+          pending: { en: "Pending", zh: "待处理" },
+        };
+
+        const detailLabels = {
+          amount: { en: "Amount", zh: "金额" },
+          startDate: { en: "Start Date", zh: "开始日期" },
+          endDate: { en: "End Date", zh: "结束日期" },
+          totalInterest: { en: "Total Interest", zh: "总利息" },
+        };
+
+        const statusTextValue = statusText[investment.status][lang];
+        const investmentName = investment.planId.planName;
+
+        return `
+                <div class="investment-card" data-status="${investment.status}" role="listitem">
+                    <div class="card-header">
+                        <div class="investment-name">${investmentName}</div>
+                        <div class="investment-status status-${investment.status}" data-en="${statusText[investment.status].en}" data-zh="${statusText[investment.status].zh}" aria-label="Status: ${statusTextValue}">${statusTextValue}</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <span class="detail-label" data-en="${detailLabels.amount.en}" data-zh="${detailLabels.amount.zh}">${detailLabels.amount[lang]}</span>
+                            <span class="detail-value">${investment.amount.$numberDecimal}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label" data-en="${detailLabels.startDate.en}" data-zh="${detailLabels.startDate.zh}">${detailLabels.startDate[lang]}</span>
+                            <span class="detail-value">${new Date(investment.startDate).toLocaleDateString()}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label" data-en="${detailLabels.endDate.en}" data-zh="${detailLabels.endDate.zh}">${detailLabels.endDate[lang]}</span>
+                            <span class="detail-value">${new Date(investment.endDate).toLocaleDateString()}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label" data-en="${detailLabels.totalInterest.en}" data-zh="${detailLabels.totalInterest.zh}">${detailLabels.totalInterest[lang]}</span>
+                            <span class="detail-value returns">${investment.totalInterest.$numberDecimal}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="view-details-btn" data-en="View Details" data-zh="查看详情" onclick="viewInvestmentDetails('${investment._id}')">View Details</button>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Update language for investment cards
+      function updateInvestmentCardsLanguage(lang) {
+        const container = document.getElementById("investment-cards");
+        const cards = container.querySelectorAll(".investment-card");
+
+        if (cards.length > 0) {
+          // Get current filter
+          const activeFilter = document
+            .querySelector(".filter-btn.active")
+            .getAttribute("data-filter");
+
+          // Re-render cards with new language
+          filterInvestments(activeFilter, lang);
+        }
+      }
+
+      // Fetch investments from API
+      async function fetchInvestments() {
+        try {
+          const response = await axios.get(
+            "https://uk-investment-backend.onrender.com/api/investments",
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          investments = response.data;
+          return investments;
+        } catch (error) {
+          console.error("Error fetching investments:", error);
+          // Fallback to empty array if API fails
+          investments = [];
+          return investments;
+        }
+      }
+
+      // Filter investments
+      async function filterInvestments(filter, lang = null) {
+        const container = document.getElementById("investment-cards");
+        const emptyState = document.getElementById("empty-state");
+        const loadingState = document.getElementById("loading-state");
+
+        // Show loading state
+        container.style.display = "none";
+        emptyState.style.display = "none";
+        loadingState.style.display = "block";
+
+        // Use current language if not specified
+        if (!lang) {
+          lang = document.body.classList.contains("english-lang") ? "en" : "zh";
+        }
+
+        try {
+          // Fetch investments from API if not already loaded
+          if (investments.length === 0) {
+            await fetchInvestments();
+          }
+
+          // Clear container
+          container.innerHTML = "";
+
+          // Filter investments
+          const filteredInvestments = investments.filter((investment) => {
+            return filter === "all" || investment.status === filter;
+          });
+
+          // Add filtered investments to container
+          if (filteredInvestments.length > 0) {
+            filteredInvestments.forEach((investment) => {
+              container.innerHTML += createInvestmentCard(investment, lang);
+            });
+            emptyState.style.display = "none";
+            container.style.display = "flex";
+          } else {
+            emptyState.style.display = "block";
+            container.style.display = "none";
+          }
+        } catch (error) {
+          console.error("Error filtering investments:", error);
+          emptyState.style.display = "block";
+          container.style.display = "none";
+        } finally {
+          // Hide loading state
+          loadingState.style.display = "none";
+        }
+      }
+
+      // View investment details function
+      function viewInvestmentDetails(investmentId) {
+        // Find the investment by ID
+        const investment = investments.find(inv => inv._id === investmentId);
+        if (investment) {
+          const lang = document.body.classList.contains("english-lang") ? "en" : "zh";
+          const details = {
+            en: `Investment Details:\n\nPlan: ${investment.planId.planName}\nAmount: ${investment.amount.$numberDecimal}\nStart Date: ${new Date(investment.startDate).toLocaleDateString()}\nEnd Date: ${new Date(investment.endDate).toLocaleDateString()}\nTotal Interest: ${investment.totalInterest.$numberDecimal}\nStatus: ${investment.status}`,
+            zh: `投资详情：\n\n计划：${investment.planId.planName}\n金额：${investment.amount.$numberDecimal}\n开始日期：${new Date(investment.startDate).toLocaleDateString()}\n结束日期：${new Date(investment.endDate).toLocaleDateString()}\n总利息：${investment.totalInterest.$numberDecimal}\n状态：${investment.status}`
+          };
+          alert(details[lang]);
+        } else {
+          alert(lang === "en" ? "Investment details not found." : "未找到投资详情。");
+        }
+      }
+
+      // Mobile menu toggle
+      const mobileToggle = document.querySelector(".mobile-menu-toggle");
+      const navMenu = document.querySelector(".nav-menu");
+
+      if (mobileToggle) {
+        mobileToggle.addEventListener("click", function () {
+          const isExpanded = this.getAttribute("aria-expanded") === "true";
+          navMenu.classList.toggle("active");
+          this.classList.toggle("active");
+          this.setAttribute("aria-expanded", !isExpanded);
+        });
+      }
+
+      // Close mobile menu when clicking outside
+      document.addEventListener("click", function (event) {
+        const isClickInsideNav = navMenu.contains(event.target);
+        const isClickOnToggle = mobileToggle.contains(event.target);
+
+        if (
+          !isClickInsideNav &&
+          !isClickOnToggle &&
+          navMenu.classList.contains("active")
+        ) {
+          navMenu.classList.remove("active");
+          mobileToggle.classList.remove("active");
+          mobileToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", function () {
+        initLanguage();
+
+        // Set active navigation based on current page
+        const currentPage =
+          window.location.pathname.split("/").pop() || "products.html";
+        document.querySelectorAll(".nav-menu a").forEach((link) => {
+          const href = link.getAttribute("href");
+          if (href === currentPage) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+
+        // Initialize investments
+        filterInvestments("all");
+
+        // Filter button event listeners
+        document.querySelectorAll(".filter-btn").forEach((button) => {
+          button.addEventListener("click", function () {
+            // Remove active class from all buttons
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((btn) => btn.classList.remove("active"));
+            // Add active class to clicked button
+            this.classList.add("active");
+
+            const filter = this.getAttribute("data-filter");
+            filterInvestments(filter);
+          });
+        });
+
+        // Language toggle event listeners
+        document.querySelectorAll(".language-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const lang = this.getAttribute("data-lang");
+            switchLanguage(lang);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

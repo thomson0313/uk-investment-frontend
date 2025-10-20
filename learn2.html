@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Clean Energy Industry | 英国清洁能源产业</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --uk-red: #CC0000;
+            --uk-blue: #012169;
+            --uk-light-blue: #1d4ed8;
+            --uk-green: #00843D;
+            --dark-gray: #1e293b;
+            --mid-gray: #64748b;
+            --light-gray: #f1f5f9;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background-color: #f8f9fa;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 999;
+            background: var(--uk-green);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .language-toggle:hover {
+            background: var(--uk-blue);
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--uk-green);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #f0f0f0;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .header-icons i {
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('assets/image1.2.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 70px;
+            position: relative;
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Main Content */
+        .content-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+        
+        .section-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section-content p {
+            margin-bottom: 20px;
+            color: var(--mid-gray);
+            line-height: 1.7;
+        }
+        
+        .section-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 10px;
+            color: var(--mid-gray);
+        }
+        
+        .section-image {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .section-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--uk-green);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 20px 0;
+            text-transform: uppercase;
+        }
+        
+        .cta-button:hover {
+            background: var(--uk-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Bilingual Content */
+        .language-content {
+            display: none;
+        }
+        
+        .language-content.active {
+            display: block;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--uk-green);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--uk-green);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+        
+        .feature-card p {
+            color: var(--mid-gray);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: var(--uk-blue);
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+        }
+        
+        /* Promotional Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--uk-green) 0%, var(--uk-blue) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .promo-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .promo-text {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .promo-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .promo-text h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .promo-graphic {
+            flex: 1;
+            text-align: right;
+        }
+        
+        .promo-graphic i {
+            font-size: 120px;
+            opacity: 0.8;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        
+        .email-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .submit-button {
+            background: var(--uk-green);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background: var(--uk-blue);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+        }
+        
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-icons i {
+            font-size: 20px;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons i:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--uk-green);
+                flex-direction: column;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 60vh;
+                margin-top: 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .promo-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .promo-text {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-form {
+                flex-direction: column;
+            }
+            
+            .email-input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .submit-button {
+                border-radius: 4px;
+                padding: 12px;
+            }
+            
+            .language-toggle {
+                top: 70px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <button class="language-toggle" id="languageToggle">中文</button>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>UK Clean Energy</span>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="#overview">Overview</a>
+                    <a href="#why-uk">Why UK</a>
+                    <a href="#sectors">Key Sectors</a>
+                    <a href="#development">Development Plan</a>
+                    <a href="Investment.html">Investment</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+                
+                <div class="header-icons"> 
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- English Content -->
+            <div class="language-content active" id="englishContent">
+                <h1>UK Clean Energy Industry</h1>
+                <p>Leading the global transition to sustainable, innovative energy solutions</p>
+                <a href="#overview" class="cta-button">Explore Opportunities</a>
+            </div>
+            
+            <!-- Chinese Content -->
+            <div class="language-content" id="chineseContent">
+                <h1>英国清洁能源产业</h1>
+                <p>引领向可持续、创新能源解决方案的全球转型</p>
+                <a href="#overview" class="cta-button">探索机遇</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Overview Section -->
+        <section class="content-section" id="overview">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishOverviewHeader">
+                        <h2>Overview of the Clean Energy Industry</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseOverviewHeader">
+                        <h2>清洁能源产业概述</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishOverviewContent">
+                        <p>The UK Clean Energy Industry represents a transformative shift toward sustainable, low-carbon energy solutions that power our economy while protecting our environment. As a global leader in renewable energy innovation, the UK is at the forefront of developing and implementing cutting-edge technologies that redefine how we generate, store, and distribute energy.</p>
+                        <p>Our comprehensive approach integrates policy, technology, and investment to create a resilient energy ecosystem that supports economic growth while achieving ambitious climate targets.</p>
+                        
+                        <h3>Key Sectors:</h3>
+                        <ul>
+                            <li><strong>Wind power</strong> - Onshore and offshore wind farms harnessing the UK's exceptional wind resources</li>
+                            <li><strong>Solar power</strong> - Photovoltaic technology advancements and large-scale solar farms</li>
+                            <li><strong>Marine energy</strong> - Wave and tidal power generation from our extensive coastline</li>
+                            <li><strong>Hydrogen and CCUS</strong> - Green hydrogen production and carbon capture, utilization, and storage</li>
+                            <li><strong>Green finance</strong> - Investment mechanisms supporting sustainable energy projects</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseOverviewContent">
+                        <p>英国清洁能源产业代表着向可持续、低碳能源解决方案的转型变革，这些解决方案在为经济提供动力的同时保护环境。作为可再生能源创新的全球领导者，英国处于开发和实施尖端技术的前沿，这些技术重新定义了能源的生产、储存和分配方式。</p>
+                        <p>我们的综合方法整合了政策、技术和投资，以创建一个支持经济增长同时实现雄心勃勃气候目标的弹性能源生态系统。</p>
+                        
+                        <h3>关键领域：</h3>
+                        <ul>
+                            <li><strong>风能</strong> - 利用英国卓越风能资源的陆上和海上风电场</li>
+                            <li><strong>太阳能</strong> - 光伏技术进步和大规模太阳能农场</li>
+                            <li><strong>海洋能源</strong> - 利用我们广阔海岸线的波浪和潮汐发电</li>
+                            <li><strong>氢能与CCUS</strong> - 绿色氢生产和碳捕获、利用与封存</li>
+                            <li><strong>绿色金融</strong> - 支持可持续能源项目的投资机制</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why UK Section -->
+        <section class="content-section" style="background: var(--light-gray);" id="why-uk">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishWhyHeader">
+                        <h2>Why choose the UK to develop the clean energy industry?</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseWhyHeader">
+                        <h2>为什么选择英国发展清洁能源产业？</h2>
+                    </div>
+                </div>
+                
+                <div class="features-grid">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishWhyContent">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>World-class R&D</h3>
+                            <p>The UK ranks among the top nations globally for research and development in clean energy technologies. Our world-renowned universities and research institutions collaborate directly with industry to drive innovation in renewable generation, energy storage, and grid modernization.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3>Key strengths and sector support</h3>
+                            <p>The UK's clean energy sector is diverse and rapidly expanding, with world-leading capabilities in offshore wind, marine energy, and smart grid technologies. Our supportive policy framework and regulatory environment accelerate the deployment of renewable energy projects.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Access to talent and skill base</h3>
+                            <p>The UK boasts a highly skilled workforce with expertise in engineering, renewable technologies, and energy systems. Our education system produces world-class engineers, technicians, and researchers specifically trained for the clean energy transition.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseWhyContent">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>世界级研发</h3>
+                            <p>英国在清洁能源技术研发方面位居全球前列。我们世界知名的大学和研究机构直接与行业合作，推动可再生能源发电、能源储存和电网现代化方面的创新。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3>关键优势与行业支持</h3>
+                            <p>英国清洁能源部门多元化且快速扩张，在海上风电、海洋能源和智能电网技术方面具有世界领先能力。我们支持性的政策框架和监管环境加速了可再生能源项目的部署。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>人才与技能基础</h3>
+                            <p>英国拥有高技能的劳动力，在工程、可再生能源技术和能源系统方面具有专业知识。我们的教育系统培养专门为清洁能源转型培训的世界级工程师、技术人员和研究人员。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Plan Section -->
+        <section class="content-section" id="development">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishDevelopmentHeader">
+                        <h2>UK Clean Energy Industry Development Plan</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseDevelopmentHeader">
+                        <h2>英国清洁能源产业发展计划</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishDevelopmentContent">
+                        <p>The UK Clean Energy Industry Development Plan represents the government's comprehensive strategy to accelerate the transition to a net-zero economy while creating high-quality jobs and securing the UK's position as a global clean energy leader.</p>
+                        <p>With significant investment in research, infrastructure, and workforce development, we're building the clean energy capabilities of the future. Our plan includes ambitious targets for renewable energy deployment, grid modernization, and industrial decarbonization.</p>
+                        <p>The UK has committed over £12 billion to clean energy innovation and infrastructure, positioning our nation at the forefront of the global energy transition while creating sustainable economic opportunities across all regions.</p>
+                        
+                        <div class="section-image">
+                            <img src="Assets/image14.jpg" alt="Futuristic Wind Turbine">
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseDevelopmentContent">
+                        <p>英国清洁能源产业发展计划代表了政府的全面战略，旨在加速向净零经济转型，同时创造高质量就业机会，并确保英国作为全球清洁能源领导者的地位。</p>
+                        <p>通过对研究、基础设施和劳动力发展的重大投资，我们正在建设未来的清洁能源能力。我们的计划包括可再生能源部署、电网现代化和工业脱碳的雄心勃勃目标。</p>
+                        <p>英国已承诺投入超过120亿英镑用于清洁能源创新和基础设施，将我们国家置于全球能源转型的前沿，同时为所有地区创造可持续的经济机会。</p>
+                        
+                        <div class="section-image">
+                            <img src="Assets/image14.jpg" alt="未来风轮机">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Section -->
+        <section class="content-section" style="background: var(--light-gray);" id="investment">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishInvestmentHeader">
+                        <h2>Invest in the UK to expand your business</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseInvestmentHeader">
+                        <h2>投资英国以扩展您的业务</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishInvestmentContent">
+                        <p>Join the growing number of international companies choosing the UK for their clean energy operations. Benefit from our world-class R&D ecosystem, skilled workforce, supportive policy environment, and access to emerging markets.</p>
+                        <p>Strategic investments in regions like Scotland, Wales, Northern Ireland, and coastal England offer unique opportunities for growth and collaboration with leading research institutions and established supply chains.</p>
+                        <p>Our team of experts is ready to provide tailored advice and support to help you <strong style="color: var(--uk-blue);">expand your business in the UK</strong> and capitalize on the tremendous opportunities in our rapidly growing clean energy sector.</p>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseInvestmentContent">
+                        <p>加入越来越多的选择英国作为其清洁能源业务的国际公司行列。受益于我们世界级的研发生态系统、熟练的劳动力、支持性的政策环境以及进入新兴市场的机会。</p>
+                        <p>在苏格兰、威尔士、北爱尔兰和英格兰沿海地区的战略投资为与领先研究机构和成熟供应链的增长和合作提供了独特的机会。</p>
+                        <p>我们的专家团队随时准备提供量身定制的建议和支持，帮助您<strong style="color: var(--uk-blue);">在英国扩展业务</strong>，并利用我们快速增长清洁能源领域的巨大机遇。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promotional Banner -->
+        <section class="promo-banner">
+            <div class="promo-content">
+                <!-- English Content -->
+                <div class="language-content active" id="englishPromoContent">
+                    <div class="promo-text">
+                        <h2>EXPAND YOUR BUSINESS</h2>
+                        <h3>IN THE UK</h3>
+                    </div>
+                    <div class="promo-graphic">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                </div>
+                
+                <!-- Chinese Content -->
+                <div class="language-content" id="chinesePromoContent">
+                    <div class="promo-text">
+                        <h2>扩展您的业务</h2>
+                        <h3>在英国</h3>
+                    </div>
+                    <div class="promo-graphic">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishFooterContent">
+                        <h2>Contact Us</h2>
+                        <p>Get in touch with our team for tailored support and advice on expanding your clean energy operations in the UK.</p>
+                        <button href="contact.html" >Contact us</button>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseFooterContent">
+                        <h2>联系我们</h2>
+                        <p>与我们的团队联系，获取关于在英国扩展清洁能源业务的定制支持和建议。</p>
+                         <button href="contact.html" >Contact us</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <!-- English Content -->
+                <div class="language-content active" id="englishCopyright">
+                    <p>© 2025 UK Government. All Rights Reserved.</p>
+                </div>
+                
+                <!-- Chinese Content -->
+                <div class="language-content" id="chineseCopyright">
+                    <p>© 2025 英国政府。保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Toggle Functionality
+        const languageToggle = document.getElementById('languageToggle');
+        const englishContents = document.querySelectorAll('#englishContent, #englishOverviewHeader, #englishOverviewContent, #englishStatsContent, #englishWhyHeader, #englishWhyContent, #englishDevelopmentHeader, #englishDevelopmentContent, #englishInvestmentHeader, #englishInvestmentContent, #englishPromoContent, #englishFooterContent, #englishFooterLinks, #englishCopyright');
+        const chineseContents = document.querySelectorAll('#chineseContent, #chineseOverviewHeader, #chineseOverviewContent, #chineseStatsContent, #chineseWhyHeader, #chineseWhyContent, #chineseDevelopmentHeader, #chineseDevelopmentContent, #chineseInvestmentHeader, #chineseInvestmentContent, #chinesePromoContent, #chineseFooterContent, #chineseFooterLinks, #chineseCopyright');
+        
+        let isEnglish = true;
+        
+        languageToggle.addEventListener('click', function() {
+            if (isEnglish) {
+                // Switch to Chinese
+                englishContents.forEach(content => content.classList.remove('active'));
+                chineseContents.forEach(content => content.classList.add('active'));
+                languageToggle.textContent = 'English';
+                isEnglish = false;
+            } else {
+                // Switch to English
+                chineseContents.forEach(content => content.classList.remove('active'));
+                englishContents.forEach(content => content.classList.add('active'));
+                languageToggle.textContent = '中文';
+                isEnglish = true;
+            }
+        });
+        
+        // Mobile Menu Functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+                header.style.padding = '10px 0';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                header.style.padding = '15px 0';
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

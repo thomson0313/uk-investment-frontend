@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Invest in GREAT Britain</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module">
+        import { validateToken } from './authGuard.js';
+
+        (async () => {
+            const isValid = await validateToken();
+            if (!isValid) return; // ✅ Redirect happens automatically
+            console.log("Access Granted ✅");
+            // Continue loading page...
+        })();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="components/slider.css">
+    <style>
+        :root {
+            --uk-blue: #012169;
+            --uk-red: #C8102E;
+            --uk-light-blue: #1d4ed8;
+            --uk-gold: #FFD700;
+            --dark-gray: #1e293b;
+            --mid-gray: #64748b;
+            --light-gray: #f1f5f9;
+            --white: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        body.chinese-lang {
+            font-family: 'Noto Sans SC', 'Roboto', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        body.chinese-lang h1,
+        body.chinese-lang h2,
+        body.chinese-lang h3,
+        body.chinese-lang h4,
+        body.chinese-lang h5 {
+            font-family: 'Noto Sans SC', 'Montserrat', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 6px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .uk-flag {
+            width: 40px;
+            height: 30px;
+        }
+
+
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--uk-blue), var(--uk-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            font-size: 16px;
+            padding: 5px 0;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--uk-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--uk-blue);
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--uk-blue);
+            color: white;
+            padding: 30px 0;
+            position: fixed;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-main {
+            flex: 1;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: var(--uk-gold);
+        }
+
+        .sidebar-menu i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-info {
+            padding: 0 25px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--uk-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--uk-blue);
+            margin-bottom: 15px;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            border-top: 4px solid;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-1 {
+            border-top-color: var(--uk-blue);
+        }
+
+        .card-2 {
+            border-top-color: var(--uk-red);
+        }
+
+        .card-3 {
+            border-top-color: var(--uk-gold);
+        }
+
+        .card-4 {
+            border-top-color: var(--success);
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: var(--mid-gray);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-title i {
+            margin-right: 8px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .card-change {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .positive {
+            color: var(--success);
+        }
+
+        .negative {
+            color: var(--danger);
+        }
+
+        /* Dashboard Sections */
+        .dashboard-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--dark-gray);
+            background: #f8fafc;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--uk-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--uk-light-blue);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: var(--dark-gray);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--uk-blue);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Mobile Responsive */
+
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .section-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-main {
+                padding: 20px 15px;
+            }
+
+            .dashboard-card,
+            .dashboard-section {
+                padding: 20px;
+            }
+
+            th,
+            td {
+                padding: 10px;
+            }
+        }
+
+        /* Language-specific styles */
+        body.chinese-lang .nav-menu a {
+            font-size: 15px;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #334155;
+            transition: 0.3s;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                gap: 15px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu a {
+                padding: 12px 0;
+                font-size: 18px;
+            }
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: 0px;
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 50px;
+        }
+
+        .language-btn:first-child {
+            border-radius: 6px 0 0 6px;
+            border-right: none;
+        }
+
+        .language-btn:last-child {
+            border-radius: 0 6px 6px 0;
+        }
+
+        .language-btn.active {
+            background: var(--uk-blue);
+            color: white;
+            border-color: var(--uk-blue);
+        }
+    </style>
+    <style>
+        body {
+
+            padding-bottom: 80px;
+
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            padding: 12px 0;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .bottom-nav .nav-item {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: #8e8e93;
+            text-decoration: none;
+            position: relative;
+            padding: 8px 0 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Active page - blue icon and text */
+        .bottom-nav .nav-item.active {
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item.active i {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item:hover {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item:hover i {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 20px;
+            color: #8e8e93;
+            transition: all 0.2s ease;
+        }
+        .flex{
+            display:flex;
+            align-items: center;
+        }
+    </style>
+
+</head>
+
+<body class="english-lang">
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="./Assets/photo_2025-10-16_02-26-05.jpg" alt="uk" class="uk-flag">
+                    <div class="logo-text">Invest in GREAT Britain</div>
+                </div>
+                <div class="flex">
+                 <div class="user-dropdown" style="margin-left: 0px; position: relative;">
+                    <button class="user-toggle" aria-label="User menu" aria-expanded="false"
+                        style="background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition);">
+                        <i class="fas fa-user-circle" style="font-size: 24px; color: var(--dark-gray);"></i>
+                    </button>
+                    <div class="user-menu"
+                        style="display: none; position: absolute; top: 100%; right: 0; background: white; border: 1px solid var(--light-gray); border-radius: var(--border-radius); box-shadow: var(--shadow); min-width: 180px; z-index: 1001; padding: 10px 0;">
+                        <a href="password.html" class="user-menu-item"
+                            style="display: block; padding: 12px 20px; color: var(--dark-gray); text-decoration: none; font-weight: 500; transition: var(--transition); border-bottom: 1px solid var(--light-gray);">
+                            Password Reset
+                        </a>
+                        <button onclick="logout()" class="user-menu-item"
+                            style="display: block; width: 100%; padding: 12px 20px; background: none; border: none; text-align: left; color: var(--dark-gray); font-weight: 500; cursor: pointer; transition: var(--transition);">
+                            Logout
+                        </button>
+                        <a href="index.html" class="user-menu-item"
+                            style="display: block; padding: 12px 20px; color: var(--dark-gray); text-decoration: none; font-weight: 500; transition: var(--transition); border-bottom: 1px solid var(--light-gray);">
+                            Home
+                        </a>
+                    </div>
+                </div>
+                <div class="language-toggle">
+                    <button class="language-btn active" data-lang="en">EN</button>
+                    <button class="language-btn" data-lang="cn">中文</button>
+                </div>
+                </div>
+            </div>
+    </header>
+    <div class="dashboard-container">
+        <nav class="bottom-nav">
+            <a href="Dashboard.html" class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard</a>
+            <a href="withdrawal.html" class="nav-item">
+                <i class="fas fa-wallet"></i>
+                Withdraw</a>
+            <a href="crypto.html" class="nav-item">
+                <i class="fas fa-money-bill-wave"></i>
+                Deposits</a>
+            <a href="Investment.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                Invest</a>
+            <a href="Referral.html" class="nav-item">
+                <i class="fas fa-user-plus"></i>Refferal</a>
+
+        </nav>
+
+
+        <main class="dashboard-main">
+
+            <div class="dashboard-cards">
+                <div class="dashboard-card card-1">
+                    <div class="card-title"><i class="fas fa-wallet"></i> <span data-en="Total Balance"
+                            data-cn="总余额">Total Balance</span></div>
+                    <div class="card-value">0.00 USDT</div>
+                    <div class="card-change positive"><i class="fas fa-arrow-up"></i> +5.2% <span
+                            data-en="from last month" data-cn="较上月">from last month</span></div>
+                </div>
+
+                <div class="dashboard-card card-2">
+                    <div class="card-title"><i class="fas fa-chart-line"></i> <span data-en="Total Returns"
+                            data-cn="总回报">Total Returns</span></div>
+                    <div class="card-value">0.00</div>
+                    <div class="card-change positive"><i class="fas fa-arrow-up"></i> +12.5% <span
+                            data-en="this quarter" data-cn="本季度">this quarter</span></div>
+                </div>
+
+                <div class="dashboard-card card-3">
+                    <div class="card-title"><i class="fas fa-project-diagram"></i> <span data-en="Active Investments"
+                            data-cn="活跃投资">Active Investments</span></div>
+                    <div class="card-value">0</div>
+                    <div class="card-change positive"><i class="fas fa-plus"></i> +1 <span data-en="this year"
+                            data-cn="今年">this year</span></div>
+                </div>
+
+                <div class="dashboard-card card-4">
+                    <div class="card-title"><i class="fas fa-users"></i> <span data-en="Referral Earnings"
+                            data-cn="推荐收益">Referral Earnings</span></div>
+                    <div class="card-value">0.00 USDT</div>
+                    <div class="card-change positive"><i class="fas fa-arrow-up"></i> +15% <span data-en="this month"
+                            data-cn="本月">this month</span></div>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title" data-en="Investment Portfolio" data-cn="投资组合">Investment Portfolio</h2>
+                    <div class="section-actions">
+                        <a href="investment.html" class="btn btn-primary" data-en="New Investment" data-cn="新投资">New
+                            Investment</a>
+                        <a href="investment.html" class="btn btn-secondary" data-en="View All" data-cn="查看全部">View
+                            All</a>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-en="Investment" data-cn="投资项目">Investment</th>
+                                <th data-en="Amount" data-cn="金额">Amount</th>
+                                <th data-en="Start Date" data-cn="开始日期">Start Date</th>
+                                <th data-en="Maturity Date" data-cn="到期日">Maturity Date</th>
+                                <th data-en="Returns" data-cn="回报">Returns</th>
+                                <th data-en="Status" data-cn="状态">Status</th>
+                                <th data-en="Action" data-cn="操作">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="investmentsTableBody">
+                            <!-- Investments will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title" data-en="Recent Transactions" data-cn="最近交易">Recent Transactions</h2>
+                    <div class="section-actions">
+                        <a href="#" class="btn btn-secondary" data-en="View All" data-cn="查看全部">View All</a>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-en="Date" data-cn="日期">Date</th>
+                                <th data-en="Description" data-cn="描述">Description</th>
+                                <th data-en="Amount" data-cn="金额">Amount</th>
+                                <th data-en="Type" data-cn="类型">Type</th>
+                                <th data-en="Status" data-cn="状态">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title" data-en="Investment Performance" data-cn="投资表现">Investment Performance
+                    </h2>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- <script type="module">
+        import DataSlider from './components/slider.js';
+        const randomDeposits = DataSlider.generateRandomDeposits(10);
+        new DataSlider('mySlider', randomDeposits, 3000);
+    </script> -->
+    <script>
+        function logout() {
+                  localStorage.removeItem('jwt');
+                  // Redirect to login
+                       window.location.href = 'login.html';
+                }
+           // User dropdown toggle
+         const userToggle = document.querySelector(".user-toggle");
+            const userMenu = document.querySelector(".user-menu");
+       
+                  if (userToggle && userMenu) {
+                        userToggle.addEventListener("click", function () {
+                              const isExpanded = this.getAttribute("aria-expanded") === "true";
+                              userMenu.style.display = isExpanded ? "none" : "block";
+                              this.setAttribute("aria-expanded", !isExpanded);
+                            });
+                      }
+        
+                  // Close user dropdown when clicking outside
+                  document.addEventListener("click", function (event) {
+                        const isClickInsideUserMenu = userMenu.contains(event.target);
+                        const isClickOnUserToggle = userToggle.contains(event.target);
+                
+                            if (
+                              !isClickInsideUserMenu &&
+                              !isClickOnUserToggle &&
+                              userMenu.style.display === "block"
+                            ) {
+                              userMenu.style.display = "none";
+                              userToggle.setAttribute("aria-expanded", "false");
+                            }
+                      });
+        var currentUser, currentUserId;
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch user data from API on load
+            fetchUserData();
+
+            setupEventListeners();
+            initLanguage();
+        });
+
+
+        async function fetchUserData() {
+
+            try {
+                const profileResponse = await axios.get('https://uk-investment-backend.onrender.com/api/users/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                    }
+                });
+
+                currentUser = profileResponse.data;
+                currentUserId = currentUser.id;
+
+                const investmentsResponse = await axios.get('https://uk-investment-backend.onrender.com/api/investments', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                    }
+                });
+
+                currentUser.investments = investmentsResponse.data;
+
+                // Filter active investments for count
+                currentUser.activeInvestmentsCount = currentUser.investments.filter(inv => inv.status === 'active').length;
+
+                // Fetch transactions
+                const transactionsResponse = await axios.get('https://uk-investment-backend.onrender.com/api/transactions', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                    }
+                });
+                currentUser.transactions = transactionsResponse.data;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                initializeDashboard();
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                showError('Failed to load user data. Please try logging in again.');
+
+            }
+        }
+
+        async function validateToken(token) {
+            try {
+                const response = await axios.get('https://uk-investment-backend.onrender.com/api/auth/verify', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                    }
+                });
+                return response.status === 200;
+            } catch (error) {
+                console.error('Token validation failed:', error);
+                return false;
+            }
+        }
+
+        function initializeDashboard() {
+
+
+            loadDashboardData();
+            updateNavigationLinks();
+        }
+        function loadDashboardData() {
+            // Calculate summary data
+            const totalBalance = currentUser.balance && currentUser.balance.$numberDecimal ? parseFloat(currentUser.balance.$numberDecimal) : 0;
+            const activeInvestments = currentUser.investments ?
+                currentUser.investments.filter(inv => inv.status === 'active').length : 0;
+            const totalReturns = currentUser.investmentEarnings ?
+                currentUser.investmentEarnings.reduce((sum, earning) => sum + earning.amount, 0) : 0;
+            const referralEarnings = currentUser.referralEarnings
+                ? currentUser.referralEarnings.reduce((sum, earning) => sum + parseFloat(earning.amount), 0)
+                : 0;
+
+            // Update summary cards
+            updateSummaryCards({
+                totalBalance,
+                activeInvestments,
+                totalReturns,
+                referralEarnings // This is now the sum of commissions
+            });
+
+            // Update investments table
+            updateInvestmentsTable(currentUser.investments);
+
+            // Update transactions table
+            updateTransactionsTable(currentUser.transactions);
+
+            // Update performance chart
+            updatePerformanceChart(currentUser.investments);
+        }
+
+        function updateSummaryCards(summary) {
+            const formatCurrency = (amount) => `${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT`;
+
+            document.querySelector('.card-1 .card-value').textContent = formatCurrency(summary.totalBalance);
+            document.querySelector('.card-2 .card-value').textContent = formatCurrency(summary.totalReturns);
+            document.querySelector('.card-3 .card-value').textContent = summary.activeInvestments.toString();
+            document.querySelector('.card-4 .card-value').textContent = formatCurrency(summary.referralEarnings);
+        }
+
+        function updateInvestmentsTable(investments) {
+            const tbody = document.getElementById('investmentsTableBody');
+
+            if (!investments || investments.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: var(--mid-gray);">
+                            <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <br>
+                            <span data-en="No active investments" data-cn="暂无活跃投资">No active investments</span>
+                            <br>
+                            <a href="investment.html" class="btn btn-primary" style="margin-top: 15px;">
+                                <span data-en="Start Investing" data-cn="开始投资">Start Investing</span>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+            investments.forEach(inv => {
+                const startDate = inv.startDate ? new Date(inv.startDate).toLocaleDateString() : 'N/A';
+                const endDate = inv.endDate ? new Date(inv.endDate).toLocaleDateString() : 'N/A';
+                const statusClass = `status-${inv.status || 'unknown'}`;
+                const amount = parseFloat(inv.amount.$numberDecimal || inv.amount || 0);
+                const profit = parseFloat(inv.totalInterest.$numberDecimal || inv.totalInterest || 0);
+
+                html += `
+                    <tr>
+                        <td>${inv.planId ? inv.planId.planName : (inv.planName || 'Unknown Plan')}</td>
+                        <td>${amount.toLocaleString()} USDT</td>
+                        <td>${startDate}</td>
+                        <td>${endDate}</td>
+                        <td>${profit.toLocaleString()} USDT</td>
+                        <td><span class="status ${statusClass}">${inv.status || 'Unknown'}</span></td>
+                        <td>
+                            <a href="investment.html" class="btn btn-primary btn-small">
+                                <span data-en="View" data-cn="查看">View</span>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function updateTransactionsTable(transactions) {
+            const tbody = document.getElementById('transactionsTableBody');
+
+            if (!transactions || transactions.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px; color: var(--mid-gray);">
+                            <i class="fas fa-receipt" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <br>
+                            <span data-en="No recent activity" data-cn="暂无活动记录">No recent activity</span>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+            transactions.forEach(activity => {
+                const date = new Date(activity.createdAt).toLocaleDateString();
+                const amount = parseFloat(activity.amount.$numberDecimal || activity.amount || 0);
+                const amountClass = amount >= 0 ? 'positive' : 'negative';
+                const sign = amount >= 0 ? '+' : '';
+                const statusClass = `status-${activity.status}`;
+
+                html += `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${activity.description}</td>
+                        <td class="${amountClass}">${sign}USDT${Math.abs(amount).toLocaleString()}</td>
+                        <td>${activity.type.charAt(0).toUpperCase() + activity.type.slice(1)}</td>
+                        <td><span class="status ${statusClass}">${activity.status}</span></td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function updateNavigationLinks() {
+            // Add userId to all navigation links if needed
+            // For this demo, we're not using URL parameters
+        }
+
+        function setupEventListeners() {
+            // Mobile menu toggle
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    if (navMenu) {
+                        navMenu.classList.toggle('active');
+                    }
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (mobileToggle && !mobileToggle.contains(event.target) &&
+                    navMenu && !navMenu.contains(event.target)) {
+                    mobileToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+
+            // Language toggle
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const lang = this.getAttribute('data-lang');
+                    switchLanguage(lang);
+                });
+            });
+
+            // Back to top button
+
+
+
+        }
+
+        function switchLanguage(lang) {
+            // Update active button
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update body class
+            document.body.className = lang === 'en' ? 'english-lang' : 'chinese-lang';
+
+            // Update all elements with data attributes
+            document.querySelectorAll('[data-en]').forEach(element => {
+                if (lang === 'en') {
+                    element.textContent = element.getAttribute('data-en');
+                } else {
+                    element.textContent = element.getAttribute('data-cn');
+                }
+            });
+        }
+
+        function initLanguage() {
+            // Set initial language
+            switchLanguage('en');
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--danger);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 10000;
+                max-width: 300px;
+            `;
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+
+        function updatePerformanceChart(investments) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+
+            // Get last 6 months
+            const now = new Date();
+            const months = [];
+            const returns = [];
+            for (let i = 5; i >= 0; i--) {
+                const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                months.push(date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
+                let monthlyReturn = 0;
+                if (investments && investments.length > 0) {
+                    investments.forEach(inv => {
+                        const startDate = new Date(inv.startDate);
+                        if (startDate.getMonth() === date.getMonth() && startDate.getFullYear() === date.getFullYear()) {
+                            monthlyReturn += parseFloat(inv.totalInterest.$numberDecimal || inv.totalInterest || 0);
+                        }
+                    });
+                }
+                returns.push(monthlyReturn);
+            }
+
+            // Destroy existing chart if it exists
+            if (window.performanceChart && typeof window.performanceChart.destroy === 'function') {
+                window.performanceChart.destroy();
+            }
+
+            window.performanceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Monthly Returns (USDT)',
+                        data: returns,
+                        borderColor: '#012169',
+                        backgroundColor: 'rgba(1, 33, 105, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#012169',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return value + ' USDT';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

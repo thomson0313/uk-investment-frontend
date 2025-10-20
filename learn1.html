@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Advanced Manufacturing | 英国先进制造业</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --uk-red: #CC0000;
+            --uk-blue: #012169;
+            --uk-light-blue: #1d4ed8;
+            --dark-gray: #1e293b;
+            --mid-gray: #64748b;
+            --light-gray: #f1f5f9;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background-color: #f8f9fa;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 999;
+            background: var(--uk-blue);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .language-toggle:hover {
+            background: var(--uk-light-blue);
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--uk-blue);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #f0f0f0;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .header-icons i {
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('assets/image1.1.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 70px;
+            position: relative;
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Main Content */
+        .content-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+        
+        .section-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section-content p {
+            margin-bottom: 20px;
+            color: var(--mid-gray);
+            line-height: 1.7;
+        }
+        
+        .section-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 10px;
+            color: var(--mid-gray);
+        }
+        
+        .section-image {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .section-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--uk-blue);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .cta-button:hover {
+            background: var(--uk-light-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Bilingual Content */
+        .language-content {
+            display: none;
+        }
+        
+        .language-content.active {
+            display: block;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--uk-blue);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+        
+        .feature-card p {
+            color: var(--mid-gray);
+        }
+        
+        /* Promotional Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--uk-blue) 0%, var(--uk-red) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .promo-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .promo-text {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .promo-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .promo-text h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .promo-graphic {
+            flex: 1;
+            text-align: right;
+        }
+        
+        .promo-graphic i {
+            font-size: 120px;
+            opacity: 0.8;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        
+        .email-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .submit-button {
+            background: var(--uk-red);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background: #b30000;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+        }
+        
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-icons i {
+            font-size: 20px;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons i:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--uk-blue);
+                flex-direction: column;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 60vh;
+                margin-top: 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .promo-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .promo-text {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-form {
+                flex-direction: column;
+            }
+            
+            .email-input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .submit-button {
+                border-radius: 4px;
+                padding: 12px;
+            }
+            
+            .language-toggle {
+                top: 70px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <button class="language-toggle" id="languageToggle">中文</button>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-industry"></i>
+                    <span>ADVANCED MANUFACTURING</span>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="#overview">Overview</a>
+                    <a href="#why-uk">Why UK</a>
+                    <a href="#funding">Funding</a>
+                    <a href="investment.html">Investment</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+                
+                <div class="header-icons">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- English Content -->
+            <div class="language-content active" id="englishContent">
+                <h1>UK Advanced Manufacturing</h1>
+                <p>Leading the global revolution in smart, sustainable, and innovative production</p>
+                <a href="#overview" class="cta-button">Explore Opportunities</a>
+            </div>
+            
+            <!-- Chinese Content -->
+            <div class="language-content" id="chineseContent">
+                <h1>英国先进制造业</h1>
+                <p>引领智能、可持续和创新生产的全球革命</p>
+                <a href="#overview" class="cta-button">探索机遇</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Overview Section -->
+        <section class="content-section" id="overview">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishOverviewHeader">
+                        <h2>Overview of Advanced Manufacturing</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseOverviewHeader">
+                        <h2>先进制造业概述</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishOverviewContent">
+                        <p>Advanced Manufacturing (AM) represents the integration of innovative technologies and methodologies into manufacturing processes. The UK is at the forefront of this industrial revolution, leading in smart factories, robotics, and sustainable production systems.</p>
+                        <p>Our robust R&D ecosystem, combined with world-class engineering talent, positions the UK as a global hub for manufacturing innovation and excellence.</p>
+                        
+                        <div class="section-image">
+                            <img src="Assets/image12.jpg" alt="Advanced Manufacturing Process">
+                        </div>
+                        
+                        <h3>Key Areas of Focus:</h3>
+                        <ul>
+                            <li>Industrial digitalisation and Industry 4.0</li>
+                            <li>Additive manufacturing (3D printing)</li>
+                            <li>Robotics and automation</li>
+                            <li>Sustainable manufacturing</li>
+                            <li>Materials science and engineering</li>
+                        </ul>
+                    </div>
+                      
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseOverviewContent">
+                        <p>先进制造业（AM）代表了将创新技术和方法论整合到制造流程中。英国处于这场工业革命的前沿，在智能工厂、机器人和可持续生产系统方面处于领先地位。</p>
+                        <p>我们强大的研发生态系统，加上世界一流的工程人才，使英国成为制造创新和卓越的全球中心。</p>
+                        
+                        <div class="section-image">
+                            <img src="Assets/image12.jpg" alt="先进制造流程">
+                        </div>
+                        
+                        <h3>重点领域：</h3>
+                        <ul>
+                            <li>工业数字化和工业4.0</li>
+                            <li>增材制造（3D打印）</li>
+                            <li>机器人与自动化</li>
+                            <li>可持续制造</li>
+                            <li>材料科学与工程</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why UK Section -->
+        <section class="content-section" style="background: var(--light-gray);" id="why-uk">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishWhyHeader">
+                        <h2>Why choose the UK to develop advanced manufacturing?</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseWhyHeader">
+                        <h2>为什么选择英国发展先进制造业？</h2>
+                    </div>
+                </div>
+                
+                <div class="features-grid">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishWhyContent">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>World-class R&D</h3>
+                            <p>The UK ranks among the top nations globally for research and development in manufacturing technologies. Our world-renowned universities and research institutions collaborate directly with industry to drive innovation.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3>Key strengths and sector support</h3>
+                            <p>The UK's manufacturing sector is diverse and resilient, with particular strengths in aerospace, automotive, pharmaceuticals, and electronics.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Access to talent and skill base</h3>
+                            <p>The UK boasts a highly skilled workforce with expertise in engineering, technology, and advanced manufacturing processes.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseWhyContent">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>世界级研发</h3>
+                            <p>英国在制造技术研发方面位居全球前列。我们世界知名的大学和研究机构直接与行业合作，推动创新。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3>关键优势与行业支持</h3>
+                            <p>英国制造业部门多元化且具有韧性，在航空航天、汽车、制药和电子领域具有特殊优势。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>人才与技能基础</h3>
+                            <p>英国拥有高技能的劳动力，在工程、技术和先进制造流程方面具有专业知识。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Fund Section -->
+        <section class="content-section" id="funding">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishFundHeader">
+                        <h2>UK Advanced Manufacturing Development Fund</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseFundHeader">
+                        <h2>英国先进制造业发展基金</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishFundContent">
+                        <p>The UK Advanced Manufacturing Development Fund represents the government's commitment to fostering innovation, creating high-quality jobs, and securing the UK's position as a global manufacturing leader.</p>
+                        <p>With significant investment in research and infrastructure, including £1.2 billion dedicated to the Advanced Manufacturing Research Centre (AMRC), we're building the manufacturing capabilities of the future.</p>
+                        
+                        <div class="section-image">
+                            <img src="images/image1.1.jpg" alt="Futuristic Car in Digital Tunnel">
+                        </div>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseFundContent">
+                        <p>英国先进制造业发展基金代表了政府对促进创新、创造高质量就业机会以及确保英国作为全球制造业领导者地位的承诺。</p>
+                        <p>通过对研究和基础设施的重大投资，包括专门用于先进制造研究中心（AMRC）的12亿英镑，我们正在建设未来的制造能力。</p>
+                        
+                        <div class="section-image">
+                            <img src="images/image1.1.jpg" alt="数字隧道中的未来汽车">
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <a href="#" class="cta-button">阅读完整报告</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Section -->
+        <section class="content-section" style="background: var(--light-gray);" id="investment">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishInvestHeader">
+                        <h2>Invest in the UK to expand your business</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseInvestHeader">
+                        <h2>投资英国以扩展您的业务</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishInvestContent">
+                        <p>Join the growing number of international companies choosing the UK for their advanced manufacturing operations. Benefit from our world-class R&D ecosystem, skilled workforce, and supportive business environment.</p>
+                        <p>Strategic investments in regions like the North East, Midlands, and Scotland offer unique opportunities for growth and collaboration with leading research institutions.</p>
+                        <p>Our team of experts is ready to provide tailored advice and support to help you <strong>expand your business in the UK</strong>.</p>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseInvestContent">
+                        <p>加入越来越多的选择英国作为其先进制造业务的国际公司行列。受益于我们世界级的研发生态系统、熟练的劳动力和支持性的商业环境。</p>
+                        <p>在东北部、中部地区和苏格兰等地区的战略投资为与领先研究机构的增长和合作提供了独特的机会。</p>
+                        <p>我们的专家团队随时准备提供量身定制的建议和支持，帮助您<strong>在英国扩展业务</strong>。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promotional Banner -->
+        <section class="promo-banner">
+            <div class="promo-content">
+                <!-- English Content -->
+                <div class="language-content active" id="englishPromoContent">
+                    <div class="promo-text">
+                        <h2>EXPAND YOUR BUSINESS</h2>
+                        <h3>IN THE UK</h3>
+                    </div>
+                    <div class="promo-graphic">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                </div>
+                
+                <!-- Chinese Content -->
+                <div class="language-content" id="chinesePromoContent">
+                    <div class="promo-text">
+                        <h2>扩展您的业务</h2>
+                        <h3>在英国</h3>
+                    </div>
+                    <div class="promo-graphic">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishFooterContent">
+                        <h2>Contact Us</h2>
+                        <p>Get in touch with our team for tailored support and advice on expanding your advanced manufacturing operations in the UK.</p>
+                         <button href="contact.html" >Contact us</button>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseFooterContent">
+                        <h2>联系我们</h2>
+                        <p>与我们的团队联系，获取关于在英国扩展先进制造业务的定制支持和建议。</p>
+                           <button href="contact.html" >Contact us</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="copyright">
+                <!-- English Content -->
+                <div class="language-content active" id="englishCopyright">
+                    <p>© 2025 UK Government. All Rights Reserved.</p>
+                </div>
+                
+                <!-- Chinese Content -->
+                <div class="language-content" id="chineseCopyright">
+                    <p>© 2025 英国政府。保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Toggle Functionality
+        const languageToggle = document.getElementById('languageToggle');
+        const englishContents = document.querySelectorAll('#englishContent, #englishOverviewHeader, #englishOverviewContent, #englishWhyHeader, #englishWhyContent, #englishFundHeader, #englishFundContent, #englishInvestHeader, #englishInvestContent, #englishPromoContent, #englishFooterContent, #englishFooterLinks, #englishCopyright');
+        const chineseContents = document.querySelectorAll('#chineseContent, #chineseOverviewHeader, #chineseOverviewContent, #chineseWhyHeader, #chineseWhyContent, #chineseFundHeader, #chineseFundContent, #chineseInvestHeader, #chineseInvestContent, #chinesePromoContent, #chineseFooterContent, #chineseFooterLinks, #chineseCopyright');
+        
+        let isEnglish = true;
+        
+        languageToggle.addEventListener('click', function() {
+            if (isEnglish) {
+                // Switch to Chinese
+                englishContents.forEach(content => content.classList.remove('active'));
+                chineseContents.forEach(content => content.classList.add('active'));
+                languageToggle.textContent = 'English';
+                isEnglish = false;
+            } else {
+                // Switch to English
+                chineseContents.forEach(content => content.classList.remove('active'));
+                englishContents.forEach(content => content.classList.add('active'));
+                languageToggle.textContent = '中文';
+                isEnglish = true;
+            }
+        });
+        
+        // Mobile Menu Functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+                header.style.padding = '10px 0';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                header.style.padding = '15px 0';
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

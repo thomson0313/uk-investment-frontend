@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premium Investment Plans | UK Investment Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module">
+        import { validateToken } from './authGuard.js';
+
+        (async () => {
+            const isValid = await validateToken();
+            if (!isValid) return; // ✅ Redirect happens automatically
+            console.log("Access Granted ✅");
+            // Continue loading page...
+        })();
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        /* Base Styles */
+        :root {
+            --uk-blue: #012169;
+            --uk-red: #c8102e;
+            --uk-light-blue: #1d4ed8;
+            --uk-gold: #ffd700;
+            --dark-gray: #1e293b;
+            --mid-gray: #64748b;
+            --light-gray: #f1f5f9;
+            --white: #ffffff;
+            --gradient-primary: linear-gradient(135deg, #012169 0%, #1d4ed8 100%);
+            --gradient-secondary: linear-gradient(135deg, #c8102e 0%, #ff6b6b 100%);
+            --gradient-gold: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--uk-blue);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-gold);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--mid-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--uk-blue);
+            color: var(--uk-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--uk-blue);
+            color: white;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .uk-flag {
+            width: 40px;
+            height: 24px;
+            background: linear-gradient(to right,
+                    #012169 0%,
+                    #012169 33%,
+                    #c8102e 33%,
+                    #c8102e 66%,
+                    #ffffff 66%,
+                    #ffffff 100%);
+            position: relative;
+        }
+
+        .uk-flag::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                    transparent 0%,
+                    transparent 45%,
+                    #c8102e 45%,
+                    #c8102e 55%,
+                    transparent 55%,
+                    transparent 100%),
+                linear-gradient(45deg,
+                    transparent 0%,
+                    transparent 45%,
+                    #c8102e 45%,
+                    #c8102e 55%,
+                    transparent 55%,
+                    transparent 100%);
+        }
+
+        .logo-text {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--uk-blue);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 12px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--uk-blue);
+        }
+
+        .nav-menu a.active::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--uk-blue);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .language-toggle {
+            display: flex;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid var(--uk-blue);
+            margin-left: auto;
+        }
+
+        .language-btn {
+            padding: 8px 15px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn.active {
+            background: var(--uk-blue);
+            color: white;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--uk-blue);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Why Invest With Us Section */
+        .why-invest {
+            background: var(--white);
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--light-gray);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--uk-blue);
+        }
+
+        .feature-card p {
+            color: var(--mid-gray);
+        }
+
+        /* Investment Plans Section */
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .plan-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .plan-header {
+            padding: 25px;
+            color: white;
+            text-align: center;
+        }
+
+        .plan-starter .plan-header {
+            background: var(--gradient-primary);
+        }
+
+        .plan-premium .plan-header {
+            background: var(--gradient-secondary);
+        }
+
+        .plan-elite .plan-header {
+            background: var(--gradient-gold);
+            color: var(--dark-gray);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .plan-period {
+            opacity: 0.9;
+        }
+
+        .plan-features {
+            padding: 25px;
+        }
+
+        .plan-features ul {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .plan-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .plan-features li i {
+            margin-right: 10px;
+            color: var(--uk-blue);
+        }
+
+        .plan-elite .plan-features li i {
+            color: var(--uk-gold);
+        }
+
+        .plan-button {
+            text-align: center;
+            padding: 0 25px 25px;
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--uk-red);
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: var(--white);
+        }
+
+        .testimonials-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            opacity: 0.1;
+            color: var(--uk-blue);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .author-info p {
+            color: var(--mid-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--uk-gold);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        /* Investment Modal */
+        .investment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* My Investments Section */
+        .investments-summary {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .investment-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #012169;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: var(--shadow-medium);
+                z-index: 1000;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                gap: 15px;
+                padding: 10px 0;
+            }
+
+            .logo {
+                order: -1;
+            }
+
+            .nav-menu {
+                order: 1;
+                padding: 15px;
+            }
+
+            .header-actions {
+                order: 2;
+                align-self: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+
+            .plans-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 5px 0;
+            }
+
+            .logo-text {
+                font-size: 1rem;
+            }
+
+            .uk-flag {
+                width: 30px;
+                height: 20px;
+            }
+
+            .nav-menu a {
+                font-size: 16px;
+                padding: 10px 0;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+
+            .feature-card {
+                padding: 20px 15px;
+            }
+
+            .plan-features {
+                padding: 15px;
+            }
+
+            .testimonial-card {
+                padding: 15px;
+            }
+
+            .gap-15 {
+                gap: 8px;
+            }
+        }
+    </style>
+        <style>
+
+body {
+  
+            padding-bottom: 80px;
+            
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            padding: 12px 0;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .bottom-nav .nav-item {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: #8e8e93;
+            text-decoration: none;
+            position: relative;
+            padding: 8px 0 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Active page - blue icon and text */
+        .bottom-nav .nav-item.active {
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item.active i {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item:hover {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item:hover i {
+            color: #007bff;
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 20px;
+            color: #8e8e93;
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+
+<body class="english-lang">
+    <header>
+        <div class="container gap-15">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="./Assets/photo_2025-10-16_02-26-05.jpg" alt="uk" class="uk-flag">
+                    <div class="logo-text">Invest in GREAT Britain</div>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="language-toggle">
+                        <button class="language-btn active" data-lang="en">EN</button>
+                        <button class="language-btn" data-lang="cn">中文</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1 data-en="Premium Investment Opportunities" data-cn="尊享投资机会">
+                Premium Investment Opportunities
+            </h1>
+            <p data-en="Maximize your returns with our expertly curated investment plans designed for both novice and experienced investors."
+                data-cn="通过我们为新手和经验丰富的投资者精心设计的投资计划，最大化您的回报。">
+                Maximize your returns with our expertly curated investment plans
+                designed for both novice and experienced investors.
+            </p>
+            <div class="hero-buttons">
+                <a href="#plans" class="btn btn-primary" data-en="View Investment Plans" data-cn="查看投资计划">View
+                    Investment Plans</a>
+                <!-- <a href="Register.html" class="btn btn-secondary" data-en="Open an Account" data-cn="开设账户">Open an
+                    Account</a> -->
+            </div>
+        </div>
+    </section>
+
+    <section class="why-invest">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-en="Why Invest With Us?" data-cn="为什么选择我们？">
+                    Why Invest With Us?
+                </h2>
+                <p data-en="Discover the unique advantages that make us the preferred choice for discerning investors"
+                    data-cn="发现使我们成为精明投资者首选的特殊优势">
+                    Discover the unique advantages that make us the preferred choice for
+                    discerning investors
+                </p>
+            </div>
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 data-en="Proven Track Record" data-cn="经过验证的业绩记录">
+                        Proven Track Record
+                    </h3>
+                    <p data-en="With over 15 years of market experience, we've consistently delivered strong returns for our investors through various market conditions."
+                        data-cn="凭借超过15年的市场经验，我们在各种市场条件下持续为投资者提供强劲回报。">
+                        With over 15 years of market experience, we've consistently
+                        delivered strong returns for our investors through various market
+                        conditions.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 data-en="Regulated & Secure" data-cn="受监管且安全">
+                        Regulated & Secure
+                    </h3>
+                    <p data-en="We are fully regulated by the FCA (Financial Conduct Authority) and employ bank-level security to protect your investments and personal data."
+                        data-cn="我们完全受FCA（金融行为监管局）监管，并采用银行级安全措施保护您的投资和个人数据。">
+                        We are fully regulated by the FCA (Financial Conduct Authority)
+                        and employ bank-level security to protect your investments and
+                        personal data.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 data-en="Expert Advisory Team" data-cn="专家顾问团队">
+                        Expert Advisory Team
+                    </h3>
+                    <p data-en="Our team of financial experts with CFA certifications provides personalized guidance tailored to your financial goals and risk tolerance."
+                        data-cn="我们拥有CFA认证的金融专家团队根据您的财务目标和风险承受能力提供个性化指导。">
+                        Our team of financial experts with CFA certifications provides
+                        personalized guidance tailored to your financial goals and risk
+                        tolerance.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-pound-sign"></i>
+                    </div>
+                    <h3 data-en="Competitive Returns" data-cn="有竞争力的回报">
+                        Competitive Returns
+                    </h3>
+                    <p data-en="Our carefully curated investment portfolios consistently outperform market averages while maintaining prudent risk management strategies."
+                        data-cn="我们精心策划的投资组合在保持审慎风险管理策略的同时，持续超越市场平均水平。">
+                        Our carefully curated investment portfolios consistently
+                        outperform market averages while maintaining prudent risk
+                        management strategies.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 data-en="Global Opportunities" data-cn="全球机会">
+                        Global Opportunities
+                    </h3>
+                    <p data-en="Access exclusive investment opportunities across UK and international markets, carefully selected by our research team for maximum potential."
+                        data-cn="获取英国和国际市场的独家投资机会，这些机会由我们的研究团队精心挑选，以实现最大潜力。">
+                        Access exclusive investment opportunities across UK and
+                        international markets, carefully selected by our research team for
+                        maximum potential.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3 data-en="Transparent Fees" data-cn="透明费用">
+                        Transparent Fees
+                    </h3>
+                    <p data-en="No hidden charges or surprise fees. We believe in complete transparency with competitive, straightforward pricing structures."
+                        data-cn="无隐藏费用或意外收费。我们相信具有竞争力的直接定价结构的完全透明度。">
+                        No hidden charges or surprise fees. We believe in complete
+                        transparency with competitive, straightforward pricing structures.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+        <nav class="bottom-nav">
+            <a href="Dashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard</a>
+            <a href="withdrawal.html" class="nav-item">
+                <i class="fas fa-wallet"></i> 
+                Withdraw</a>
+            <a href="crypto.html" class="nav-item">
+                <i class="fas fa-money-bill-wave"></i>
+                Deposits</a>
+            <a href="Investment.html" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                Invest</a>
+            <a href="Referral.html" class="nav-item">
+                <i class="fas fa-user-plus"></i>Refferal</a>
+
+        </nav>
+    <section id="plans">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-en="Our Investment Plans" data-cn="我们的投资计划">
+                    Our Investment Plans
+                </h2>
+                <p data-en="Choose from our range of premium investment options tailored to meet your financial goals"
+                    data-cn="从我们一系列旨在满足您财务目标的尊享投资选项中进行选择">
+                    Choose from our range of premium investment options tailored to meet
+                    your financial goals
+                </p>
+            </div>
+            <div class="plans-container">
+                <!-- <div class="plan-card plan-starter">
+            <div class="plan-header">
+              <h3 class="plan-name" data-en="Starter Plan" data-cn="入门计划">
+                Starter Plan
+              </h3>
+              <div class="plan-price">USDT1,000</div>
+              <div
+                class="plan-period"
+                data-en="Minimum Investment"
+                data-cn="最低投资额"
+              >
+                Minimum Investment
+              </div>
+            </div>
+            <div class="plan-features">
+              <ul>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Up to 8% annual returns"
+                    data-cn="高达8%的年回报率"
+                    >Up to 8% annual returns</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span data-en="Diversified portfolio" data-cn="多元化投资组合"
+                    >Diversified portfolio</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Monthly performance reports"
+                    data-cn="月度业绩报告"
+                    >Monthly performance reports</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span data-en="Basic customer support" data-cn="基础客户支持"
+                    >Basic customer support</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Online account management"
+                    data-cn="在线账户管理"
+                    >Online account management</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="plan-button">
+              <button
+                class="btn btn-outline invest-btn"
+                data-plan="starter"
+                data-en="Invest Now"
+                data-cn="立即投资"
+              >
+                Invest Now
+              </button>
+            </div>
+          </div>
+
+          <div class="plan-card plan-premium">
+            <div class="plan-badge" data-en="Most Popular" data-cn="最受欢迎">
+              Most Popular
+            </div>
+            <div class="plan-header">
+              <h3 class="plan-name" data-en="Premium Plan" data-cn="尊享计划">
+                Premium Plan
+              </h3>
+              <div class="plan-price">USDT10,000</div>
+              <div
+                class="plan-period"
+                data-en="Minimum Investment"
+                data-cn="最低投资额"
+              >
+                Minimum Investment
+              </div>
+            </div>
+            <div class="plan-features">
+              <ul>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Up to 12% annual returns"
+                    data-cn="高达12%的年回报率"
+                    >Up to 12% annual returns</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Priority investment opportunities"
+                    data-cn="优先投资机会"
+                    >Priority investment opportunities</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Dedicated account manager"
+                    data-cn="专属客户经理"
+                    >Dedicated account manager</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Bi-weekly performance reviews"
+                    data-cn="双周业绩评估"
+                    >Bi-weekly performance reviews</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Advanced portfolio analytics"
+                    data-cn="高级投资组合分析"
+                    >Advanced portfolio analytics</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="plan-button">
+              <button
+                class="btn btn-primary invest-btn"
+                data-plan="premium"
+                data-en="Invest Now"
+                data-cn="立即投资"
+              >
+                Invest Now
+              </button>
+            </div>
+          </div>
+
+          <div class="plan-card plan-elite">
+            <div class="plan-header">
+              <h3 class="plan-name" data-en="Elite Plan" data-cn="精英计划">
+                Elite Plan
+              </h3>
+              <div class="plan-price">USDT50,000</div>
+              <div
+                class="plan-period"
+                data-en="Minimum Investment"
+                data-cn="最低投资额"
+              >
+                Minimum Investment
+              </div>
+            </div>
+            <div class="plan-features">
+              <ul>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Up to 18% annual returns"
+                    data-cn="高达18%的年回报率"
+                    >Up to 18% annual returns</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Exclusive investment opportunities"
+                    data-cn="独家投资机会"
+                    >Exclusive investment opportunities</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Personal investment strategist"
+                    data-cn="个人投资策略师"
+                    >Personal investment strategist</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="Weekly portfolio adjustments"
+                    data-cn="每周投资组合调整"
+                    >Weekly portfolio adjustments</span
+                  >
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span
+                    data-en="VIP events and networking"
+                    data-cn="VIP活动与社交"
+                    >VIP events and networking</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="plan-button">
+              <button
+                class="btn btn-secondary invest-btn"
+                data-plan="elite"
+                data-en="Invest Now"
+                data-cn="立即投资"
+              >
+                Invest Now
+              </button>
+            </div>
+          </div> -->
+            </div>
+        </div>
+    </section>
+
+    <section id="my-investments" style="background: #f8f9fa; padding: 60px 0">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-en="My Investments" data-cn="我的投资">My Investments</h2>
+                <p data-en="Manage your current investments and track your returns" data-cn="管理您当前的投资并跟踪回报">
+                    Manage your current investments and track your returns
+                </p>
+            </div>
+            <div id="investmentsContainer">
+                <!-- Investments will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-en="What Our Investors Say" data-cn="投资者评价">
+                    What Our Investors Say
+                </h2>
+                <p data-en="Hear from our satisfied clients about their investment experience"
+                    data-cn="听听我们满意的客户分享他们的投资体验">
+                    Hear from our satisfied clients about their investment experience
+                </p>
+            </div>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <div class="testimonial-text"
+                        data-en="I've been investing with this platform for over two years now, and the returns have been consistently impressive. The customer service is exceptional and always responsive to my inquiries."
+                        data-cn="我已经在这个平台投资超过两年，回报一直令人印象深刻。客户服务非常出色，总是及时回应我的咨询。">
+                        "I've been investing with this platform for over two years now,
+                        and the returns have been consistently impressive. The customer
+                        service is exceptional and always responsive to my inquiries."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JS</div>
+                        <div class="author-info">
+                            <h4 data-en="James Smith" data-cn="詹姆斯·史密斯">
+                                James Smith
+                            </h4>
+                            <p data-en="Premium Investor" data-cn="尊享投资者">
+                                Premium Investor
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text"
+                        data-en="As someone new to investing, I appreciated the guidance from my personal advisor. The platform is user-friendly and the returns have exceeded my expectations significantly."
+                        data-cn="作为投资新手，我非常感谢我的个人顾问提供的指导。平台易于使用，回报远超我的预期。">
+                        "As someone new to investing, I appreciated the guidance from my
+                        personal advisor. The platform is user-friendly and the returns
+                        have exceeded my expectations significantly."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">EM</div>
+                        <div class="author-info">
+                            <h4 data-en="Emma Johnson" data-cn="艾玛·约翰逊">
+                                Emma Johnson
+                            </h4>
+                            <p data-en="Starter Investor" data-cn="入门投资者">
+                                Starter Investor
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text"
+                        data-en="The Elite plan has been a game-changer for my portfolio. The exclusive opportunities and personalized strategy have significantly boosted my returns beyond what I thought possible."
+                        data-cn="精英计划彻底改变了我的投资组合。独家机会和个性化策略显著提升了我的回报，超出了我的预期。">
+                        "The Elite plan has been a game-changer for my portfolio. The
+                        exclusive opportunities and personalized strategy have
+                        significantly boosted my returns beyond what I thought possible."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RW</div>
+                        <div class="author-info">
+                            <h4 data-en="Robert Williams" data-cn="罗伯特·威廉姆斯">
+                                Robert Williams
+                            </h4>
+                            <p data-en="Elite Investor" data-cn="精英投资者">
+                                Elite Investor
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 data-en="Invest in GREAT Britain" data-cn="投资大不列颠">
+                        Invest in GREAT Britain
+                    </h3>
+                    <p data-en="Your trusted partner for premium investment opportunities in the UK market."
+                        data-cn="您在英国市场值得信赖的尊享投资机会合作伙伴。">
+                        Your trusted partner for premium investment opportunities in the
+                        UK market.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h3 data-en="Quick Links" data-cn="快速链接">Quick Links</h3>
+                    <ul>
+                        <li>
+                            <a href="index.html" data-en="Home" data-cn="首页">Home</a>
+                        </li>
+                        <li>
+                            <a href="investment.html" data-en="Investment Plans" data-cn="投资计划">Investment Plans</a>
+                        </li>
+                        <li>
+                            <a href="About.html" data-en="About Us" data-cn="关于我们">About Us</a>
+                        </li>
+                        <li>
+                            <a href="contact.html" data-en="Contact" data-cn="联系我们">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 data-en="Services" data-cn="服务">Services</h3>
+                    <ul>
+                        <li>
+                            <a href="products.html" data-en="Investment History" data-cn="投资历史">Investment History</a>
+                        </li>
+                        <li>
+                            <a href="withdrawal.html" data-en="Withdrawal" data-cn="提款">Withdrawal</a>
+                        </li>
+                        <li>
+                            <a href="crypto.html" data-en="Deposit" data-cn="存款">Deposit</a>
+                        </li>
+                        <li>
+                            <a href="Referral.html" data-en="Referral Program" data-cn="推荐计划">Referral Program</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 data-en="Contact Us" data-cn="联系我们">Contact Us</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span data-en="London, United Kingdom" data-cn="英国伦敦">London, United Kingdom</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i> <span>+44 20 1234 5678</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@investgreatbritain.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-en="© 2023 Invest in GREAT Britain. All rights reserved." data-cn="© 2023 投资大不列颠。保留所有权利。">
+                    © 2023 Invest in GREAT Britain. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let userBalance = 0;
+
+        async function fetchUserBalance() {
+            const token = localStorage.getItem("jwt");
+
+            if (!token) {
+                userBalance = null;
+                return;
+            }
+
+            try {
+                const response = await axios.get(
+                    "https://uk-investment-backend.onrender.com/api/users/profile",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                const user = response.data;
+                userBalance = parseFloat(
+                    user.balance?.$numberDecimal || user.balance || 0
+                );
+            } catch (error) {
+                userBalance = null; // ✅ Hide balance on error too
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            if (!currentUser) {
+                alert("Please login to view investment plans");
+                window.location.href = "Login.html";
+                return;
+            }
+            loadUserData();
+            loadInvestmentPlans();
+            setupLanguageToggle();
+            setupMobileMenu();
+        });
+
+        async function loadInvestmentPlans() {
+            await fetchUserBalance();
+            try {
+                const response = await axios.get(
+                    "https://uk-investment-backend.onrender.com/api/investments/plans",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                const plans = response.data;
+                renderPlans(plans);
+            } catch (error) {
+                document.querySelector(
+                    ".plans-container"
+                ).innerHTML = `<div style="padding:40px;text-align:center;">Failed to load plans.</div>`;
+            }
+        }
+
+        function renderPlans(plans) {
+            const plansContainer = document.querySelector(".plans-container");
+            if (!plansContainer) return;
+
+            if (!Array.isArray(plans) || plans.length === 0) {
+                plansContainer.innerHTML = `<div style="padding:40px;text-align:center;">No plans available.</div>`;
+                return;
+            }
+
+            // ✅ Plain blue background for all plan headers
+            const headerStyle = "#012169";
+
+            plansContainer.innerHTML = plans
+                .map((plan, index) => {
+
+                    return `
+        <div class="plan-card" style="
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          margin: 20px auto;
+          max-width: 420px;
+          background: #fff;
+        ">
+          <div class="plan-header" style="
+            background: ${headerStyle};
+            color: white;
+            padding: 25px;
+            text-align: center;
+          ">
+            <h3 style="margin: 0; font-size: 1.5rem;">
+              ${plan.planName.charAt(0).toUpperCase() + plan.planName.slice(1)
+                        } Plan
+            </h3>
+            <div class="plan-price" style="font-size: 1.2rem; margin-top: 5px;">
+              ${plan.minAmount} USDT
+            </div>
+            <div class="plan-period" style="font-size: 0.9rem;">
+              Minimum Investment
+            </div>
+          </div>
+
+          <div class="plan-features" style="padding: 20px;">
+            <ul style="padding-left: 20px; margin-bottom: 10px;">
+              <li><i class="fas fa-check"></i> Up to ${(
+                            plan.interestRate * 100
+                        ).toFixed(2)}% daily returns</li>
+              <li><i class="fas fa-check"></i> Duration: ${plan.durationDays
+                        } day(s)</li>
+              <li><i class="fas fa-check"></i> Online account management</li>
+            </ul>
+            <div style="margin-top:10px;font-weight:600;color:#0056b3;">
+              Your Balance: ${userBalance.toLocaleString()} USDT
+            </div>
+          </div>
+
+          <div class="plan-button" style="padding: 20px; text-align:center;">
+            <button 
+              class="btn btn-outline invest-btn"
+              data-plan-id="${plan._id}" 
+              data-plan-name="${plan.planName}" 
+              data-min="${plan.minAmount}" 
+              data-rate="${plan.interestRate}" 
+              data-duration="${plan.durationDays}"
+              style="
+                border-radius: 6px; 
+                padding: 10px 22px;
+                cursor: pointer;
+                font-weight: 600;
+              ">
+              Invest Now
+            </button>
+          </div>
+        </div>
+      `;
+                })
+                .join("");
+
+            setupInvestmentHandlers();
+        }
+
+        function setupInvestmentHandlers() {
+            document.querySelectorAll(".invest-btn").forEach((button) => {
+                button.addEventListener("click", function () {
+                    
+                    const planId = this.getAttribute("data-plan-id");
+                    const planName = this.getAttribute("data-plan-name");
+                    const minAmount = parseFloat(this.getAttribute("data-min"));
+                    const interestRate = parseFloat(this.getAttribute("data-rate"));
+                    const durationDays = parseInt(this.getAttribute("data-duration"));
+                    showInvestmentModal({
+                        planId,
+                        planName,
+                        minAmount,
+                        interestRate,
+                        durationDays,
+                    });
+                });
+            });
+        }
+
+        async function loadUserData() {
+            try {
+                const response = await axios.get(
+                    "https://uk-investment-backend.onrender.com/api/investments/",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                const investments = Array.isArray(response.data) ? response.data : [];
+                // Calculate summary from investments array
+                const summary = {
+                    totalInvested: investments.reduce(
+                        (sum, inv) =>
+                            sum + parseFloat(inv.amount?.$numberDecimal || inv.amount || 0),
+                        0
+                    ),
+                    totalProfit: investments.reduce(
+                        (sum, inv) =>
+                            sum +
+                            parseFloat(
+                                inv.totalInterest?.$numberDecimal || inv.totalInterest || 0
+                            ),
+                        0
+                    ),
+                    activeInvestments: investments.filter(
+                        (inv) => inv.status === "active"
+                    ).length,
+                };
+                displayInvestments(investments, summary);
+            } catch (error) {
+                console.error("Error loading investments:", error);
+                alert("Failed to load investment data. Please try again.");
+            }
+        }
+
+        function setupLanguageToggle() {
+            const languageButtons = document.querySelectorAll(".language-btn");
+
+            languageButtons.forEach((button) => {
+                button.addEventListener("click", function () {
+                    const lang = this.getAttribute("data-lang");
+
+                    // Update active button
+                    languageButtons.forEach((btn) => btn.classList.remove("active"));
+                    this.classList.add("active");
+
+                    // Toggle language content
+                    document
+                        .querySelectorAll("[data-en], [data-cn]")
+                        .forEach((element) => {
+                            if (lang === "cn") {
+                                element.textContent = element.getAttribute("data-cn");
+                            } else {
+                                element.textContent = element.getAttribute("data-en");
+                            }
+                        });
+                });
+            });
+        }
+
+        function setupMobileMenu() {
+            const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+            const navMenu = document.querySelector(".nav-menu");
+
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener("click", function () {
+                    navMenu.classList.toggle("active");
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener("click", function (e) {
+                if (
+                    !e.target.closest(".nav-menu") &&
+                    !e.target.closest(".mobile-menu-toggle")
+                ) {
+                    navMenu.classList.remove("active");
+                }
+            });
+        }
+
+        function showInvestmentModal(plan) {
+            const modalHTML = `
+    <div class="investment-modal">
+      <div class="modal-content">
+        <h3>Invest in ${plan.planName.charAt(0).toUpperCase() + plan.planName.slice(1)
+                } Plan</h3>
+        <p>Minimum: USDT${plan.minAmount}</p>
+        <p>Interest Rate: ${(plan.interestRate * 100).toFixed(2)}% daily</p>
+        <p>Duration: ${plan.durationDays} day(s)</p>
+        <div style="margin: 20px 0;">
+          <label>Investment Amount (USDT):</label>
+          <input type="number" id="investmentAmount" min="${plan.minAmount
+                }" max="${userBalance}" value="${plan.minAmount
+                }" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
+          <div style="color:var(--uk-blue);margin-top:5px;">Your Balance: USDT${typeof userBalance === "number" && !isNaN(userBalance)
+                    ? userBalance.toLocaleString()
+                    : "N/A"
+                }</div>
+        </div>
+        <div style="margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+          <strong>Expected Returns:</strong>
+          <div>Daily: USDT<span id="dailyReturn">0</span></div>
+          <div>Total: USDT<span id="totalReturn">0</span></div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button id="calcReturnsBtn" style="flex: 1; padding: 10px; background: #012169; color: white; border: none; border-radius: 5px;">Calculate Returns</button>
+          <button id="confirmInvestBtn" style="flex: 1; padding: 10px; background: #C8102E; color: white; border: none; border-radius: 5px;">Confirm Investment</button>
+        </div>
+        <button onclick="closeModal()" style="margin-top: 15px; width: 100%; padding: 10px; background: #6c757d; color: white; border: none; border-radius: 5px;">Cancel</button>
+      </div>
+    </div>
+  `;
+            document.body.insertAdjacentHTML("beforeend", modalHTML);
+            calculateReturnsModal(
+                plan.interestRate,
+                plan.durationDays,
+                plan.minAmount
+            );
+
+            document.getElementById("calcReturnsBtn").onclick = function () {
+                calculateReturnsModal(
+                    plan.interestRate,
+                    plan.durationDays,
+                    plan.minAmount
+                );
+            };
+
+            document.getElementById("confirmInvestBtn").onclick =
+                async function () {
+                    const amount = parseFloat(
+                        document.getElementById("investmentAmount").value
+                    );
+                    if (
+                        isNaN(amount) ||
+                        amount < plan.minAmount ||
+                        amount > userBalance
+                    ) {
+                        alert("Please enter a valid investment amount.");
+                        return;
+                    }
+                    try {
+                        await axios.post(
+                            "https://uk-investment-backend.onrender.com/api/investments",
+                            {
+                                planName: plan.planName,
+                                amount: amount,
+                            },
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                                    "Content-Type": "application/json",
+                                },
+                            }
+                        );
+                        alert("Investment successful!");
+                        closeModal();
+                        await fetchUserBalance();
+                        loadInvestmentPlans();
+                        loadUserData();
+                    } catch (err) {
+                        alert("Investment failed. Please try again.");
+                    }
+                };
+        }
+
+        function confirmInvestment(planId) {
+            alert("Investment confirmed for plan: " + planId);
+            closeModal();
+        }
+
+        function calculateReturnsModal(rate, duration, minAmount) {
+            const amount =
+                parseFloat(document.getElementById("investmentAmount").value) ||
+                minAmount;
+            const dailyReturn = amount * rate;
+            const totalReturn = dailyReturn * duration;
+            document.getElementById("dailyReturn").textContent =
+                dailyReturn.toFixed(2);
+            document.getElementById("totalReturn").textContent =
+                totalReturn.toFixed(2);
+        }
+
+        function closeModal() {
+            const modal = document.querySelector(".investment-modal");
+            if (modal) modal.remove();
+        }
+
+        function displayInvestments(investments, summary) {
+            const investmentsContainer = document.getElementById("investmentsContainer");
+            if (!investmentsContainer) return;
+
+            if (!Array.isArray(investments) || investments.length === 0) {
+                investmentsContainer.innerHTML = `
+      <div style="text-align: center; padding: 40px; background: white; border-radius: 10px;">
+        <h3>No Active Investments</h3>
+        <p>Start investing by choosing a plan above</p>
+      </div>
+    `;
+                return;
+            }
+
+            let html = `
+    <div class="investments-summary">
+      <h3>Investment Summary</h3>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-value" style="color: #012169;">USDT${summary.totalInvested?.toLocaleString() || "0"}</div>
+          <div>Total Invested</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-value" style="color: #C8102E;">USDT${summary.totalProfit?.toLocaleString() || "0"}</div>
+          <div>Total Profit</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-value" style="color: #FFD700;">${summary.activeInvestments || investments.length}</div>
+          <div>Active Investments</div>
+        </div>
+      </div>
+    </div>
+    <h3 style="margin-bottom: 20px; text-align:center;">Your Investments</h3>
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; background:white; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <thead style="background:#f8f9fa;">
+          <tr>
+            <th style="padding:12px; border-bottom:1px solid #eee;">Plan</th>
+            <th style="padding:12px; border-bottom:1px solid #eee;">Amount</th>
+            <th style="padding:12px; border-bottom:1px solid #eee;">Return</th>
+            <th style="padding:12px; border-bottom:1px solid #eee;">Status</th>
+            <th style="padding:12px; border-bottom:1px solid #eee;">Start Date</th>
+            <th style="padding:12px; border-bottom:1px solid #eee;">End Date</th>
+            <th style="padding:12px; border-bottom:1px solid #eee;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+            investments.forEach((inv) => {
+                const planName = inv.planId?.planName || "Unknown";
+                const amount = parseFloat(inv.amount?.$numberDecimal || inv.amount || 0);
+                const totalInterest = parseFloat(inv.totalInterest?.$numberDecimal || inv.totalInterest || 0);
+                const status = inv.status || "active";
+                const startDate = inv.startDate ? new Date(inv.startDate).toLocaleDateString() : "-";
+                const endDate = inv.endDate ? new Date(inv.endDate).toLocaleDateString() : "-";
+                html += `
+      <tr>
+        <td style="padding:10px; text-align:center; border-bottom:1px solid #eee;">${planName}</td>
+        <td style="padding:10px; text-align:center; border-bottom:1px solid #eee;">USDT${amount.toLocaleString()}</td>
+        <td style="padding:10px; text-align:center; border-bottom:1px solid #eee;">USDT${totalInterest.toLocaleString()}</td>
+        <td style="padding:10px; text-align:center; border-bottom:1px solid #eee;">${status.charAt(0).toUpperCase() + status.slice(1)}</td>
+        <td style="padding:10px; text-align:center; border-bottom:1px solid #eee;">${startDate}</td>
+        <td style="padding:10px; text-align:center; border-bottom:1px solid #eee;">${endDate}</td>
+        <td style="padding:10px; text-align:center; border-bottom:1px solid #eee;">
+          <button onclick="withdrawInvestment('${inv._id}')"
+            style="padding:5px 15px; background:#C8102E; color:white; border:none; border-radius:3px; cursor:pointer;">
+            Withdraw
+          </button>
+        </td>
+      </tr>
+    `;
+            });
+
+            html += `
+        </tbody>
+      </table>
+    </div>
+  `;
+
+            investmentsContainer.innerHTML = html;
+        }
+
+        function withdrawInvestment(investmentId) {
+            if (!confirm("Are you sure you want to withdraw this investment?"))
+                return;
+
+            // In a real app, this would make an API call
+            alert(`Investment #${investmentId} withdrawn successfully!`);
+
+            // Refresh investments display
+            displayInvestments(
+                mockInvestments.investments,
+                mockInvestments.summary
+            );
+        }
+    </script>
+</body>
+
+</html>

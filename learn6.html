@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Professional and Business Services | 英国专业与商业服务</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --uk-red: #CC0000;
+            --uk-blue: #012169;
+            --uk-light-blue: #1d4ed8;
+            --uk-gold: #CFA03B;
+            --dark-gray: #1e293b;
+            --mid-gray: #64748b;
+            --light-gray: #f1f5f9;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background-color: #f8f9fa;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 999;
+            background: var(--uk-gold);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .language-toggle:hover {
+            background: var(--uk-blue);
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--uk-gold);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #f0f0f0;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .header-icons i {
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('assets/image1.6.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 70px;
+            position: relative;
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Main Content */
+        .content-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+        
+        .section-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section-content p {
+            margin-bottom: 20px;
+            color: var(--mid-gray);
+            line-height: 1.7;
+        }
+        
+        .section-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 10px;
+            color: var(--mid-gray);
+        }
+        
+        .section-image {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .section-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--uk-gold);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 20px 0;
+            text-transform: uppercase;
+        }
+        
+        .cta-button:hover {
+            background: var(--uk-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .explore-button {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 40px auto;
+            background: var(--uk-gold);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-align: center;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .explore-button:hover {
+            background: var(--uk-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Bilingual Content */
+        .language-content {
+            display: none;
+        }
+        
+        .language-content.active {
+            display: block;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--uk-gold);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--uk-gold);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+        
+        .feature-card p {
+            color: var(--mid-gray);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: var(--uk-blue);
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+        }
+        
+        /* Multi-column Lists */
+        .multi-column-list {
+            columns: 2;
+            margin: 20px 0;
+        }
+        
+        .multi-column-list li {
+            margin-bottom: 10px;
+            color: var(--mid-gray);
+            break-inside: avoid;
+        }
+        
+        /* Promotional Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--uk-gold) 0%, var(--uk-blue) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .promo-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .promo-text {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .promo-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .promo-text h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .promo-graphic {
+            flex: 1;
+            text-align: right;
+            position: relative;
+        }
+        
+        .promo-graphic i {
+            font-size: 120px;
+            opacity: 0.8;
+        }
+        
+        .uk-flag {
+            position: absolute;
+            top: -10px;
+            right: 0;
+            width: 80px;
+            height: 50px;
+            background: linear-gradient(to right, var(--uk-blue) 33%, var(--white) 33%, var(--white) 66%, var(--uk-red) 66%);
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        
+        .email-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .submit-button {
+            background: var(--uk-gold);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background: var(--uk-blue);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+        }
+        
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-icons i {
+            font-size: 20px;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons i:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .multi-column-list {
+                columns: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--uk-gold);
+                flex-direction: column;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 60vh;
+                margin-top: 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .promo-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .promo-text {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-form {
+                flex-direction: column;
+            }
+            
+            .email-input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .submit-button {
+                border-radius: 4px;
+                padding: 12px;
+            }
+            
+            .language-toggle {
+                top: 70px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <button class="language-toggle" id="languageToggle">中文</button>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Professional Services</span>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="#overview">Overview</a>
+                    <a href="#why-uk">Why UK</a>
+                    <a href="#sectors">Key Sectors</a>
+                    <a href="#development">Development Programme</a>
+                    <a href="Investment.html">Investment</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+                
+                <div class="header-icons">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- English Content -->
+            <div class="language-content active" id="englishContent">
+                <h1>UK Professional and Business Services</h1>
+                <p>Delivering world-class expertise and innovative solutions for global business success</p>
+                <a href="#overview" class="cta-button">Explore Opportunities</a>
+            </div>
+            
+            <!-- Chinese Content -->
+            <div class="language-content" id="chineseContent">
+                <h1>英国专业与商业服务</h1>
+                <p>提供世界级专业知识和创新解决方案，助力全球商业成功</p>
+                <a href="#overview" class="cta-button">探索机遇</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Overview Section -->
+        <section class="content-section" id="overview">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishOverviewHeader">
+                        <h2>Professional and Business Services Overview</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseOverviewHeader">
+                        <h2>专业与商业服务概述</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishOverviewContent">
+                        <p>The UK Professional and Business Services (PBS) Industry represents one of our most dynamic and essential economic sectors, providing the expertise, infrastructure, and strategic support that enables businesses of all sizes to thrive in a complex global marketplace. As a global hub for professional excellence, the UK delivers world-class services across legal, financial, consulting, and business support domains.</p>
+                        <p>With a reputation for quality, integrity, and innovation, the UK PBS sector generates over £200 billion annually and employs more than 4.5 million people across the nation, making it one of the largest and most diverse professional services markets in the world.</p>
+                        
+                        <h3>Key Sectors:</h3>
+                        <ul class="multi-column-list">
+                            <li><strong>Legal services</strong> - International law firms and legal expertise</li>
+                            <li><strong>Accounting and auditing</strong> - Financial services and compliance</li>
+                            <li><strong>Consulting</strong> - Strategic, management, and technical advisory</li>
+                            <li><strong>Business support services</strong> - Administrative and operational support</li>
+                            <li><strong>Marketing and PR</strong> - Brand development and communication strategies</li>
+                            <li><strong>Human resources</strong> - Talent management and organizational development</li>
+                            <li><strong>Research and development</strong> - Business intelligence and innovation services</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseOverviewContent">
+                        <p>英国专业与商业服务（PBS）产业代表了我国最具活力和最重要的经济部门之一，提供专业知识、基础设施和战略支持，使各种规模的企业能够在复杂的全球市场中蓬勃发展。作为专业卓越的全球中心，英国在法律、金融、咨询和商业支持领域提供世界级服务。</p>
+                        <p>凭借质量、诚信和创新的声誉，英国专业与商业服务部门每年产生超过2000亿英镑的收入，并在全国范围内雇佣超过450万人，使其成为世界上最大和最多样化的专业服务市场之一。</p>
+                        
+                        <h3>关键领域：</h3>
+                        <ul class="multi-column-list">
+                            <li><strong>法律服务</strong> - 国际律师事务所和法律专业知识</li>
+                            <li><strong>会计与审计</strong> - 金融服务与合规</li>
+                            <li><strong>咨询</strong> - 战略、管理和技术咨询</li>
+                            <li><strong>商业支持服务</strong> - 行政和运营支持</li>
+                            <li><strong>市场营销与公关</strong> - 品牌发展和沟通策略</li>
+                            <li><strong>人力资源</strong> - 人才管理和组织发展</li>
+                            <li><strong>研究与开发</strong> - 商业情报和创新服务</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why UK Section -->
+        <section class="content-section" style="background: var(--light-gray);" id="why-uk">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishWhyHeader">
+                        <h2>Why choose the UK for professional and business services?</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseWhyHeader">
+                        <h2>为什么选择英国发展专业与商业服务？</h2>
+                    </div>
+                </div>
+                
+                <div class="features-grid">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishWhyContent">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h3>World-leading talent and expertise</h3>
+                            <p>The UK is home to some of the world's most respected professional services firms and individual experts across legal, accounting, consulting, and business advisory domains.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>Access to diverse markets</h3>
+                            <p>The UK's strategic location, time zone advantage, and global business connections provide unparalleled access to international markets.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <h3>Supportive regulatory environment</h3>
+                            <p>The UK offers a stable, transparent, and business-friendly regulatory environment that supports professional services excellence.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseWhyContent">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h3>世界领先的人才与专业知识</h3>
+                            <p>英国是世界上一些最受尊敬的专业服务公司和个别专家的所在地，涵盖法律、会计、咨询和商业咨询领域。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>进入多样化市场</h3>
+                            <p>英国的战略位置、时区优势和全球商业联系提供了无与伦比的国际市场准入。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <h3>支持性监管环境</h3>
+                            <p>英国提供了一个稳定、透明和商业友好的监管环境，支持专业服务卓越。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Programme Section -->
+        <section class="content-section" id="development">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishDevelopmentHeader">
+                        <h2>UK Professional and Business Services Development Programme</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseDevelopmentHeader">
+                        <h2>英国专业与商业服务发展计划</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishDevelopmentContent">
+                        <p>The UK Professional and Business Services Development Programme represents a comprehensive strategy to strengthen our position as a global leader in professional expertise and business advisory services. Through targeted investment, skills development, and international promotion, we're building an ecosystem where professional services businesses can thrive and scale globally.</p>
+                        <p>Our programme includes significant support for professional qualifications, digital transformation in service delivery, export promotion, and initiatives to enhance diversity and inclusion across the sector. With dedicated funding for skills development and innovation, we're ensuring the UK remains at the forefront of professional services excellence.</p>
+                        <p>The Professional and Business Services Council brings together government and industry leaders to address key challenges and opportunities, from adapting to digital disruption to maintaining the UK's competitive advantage in global markets.</p>
+                        
+                        <div class="section-image">
+                            <img src="images/image15.jpg" alt="Futuristic Cityscape with Data Connectivity">
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <a href="#" class="cta-button">READ OUR FULL REPORT</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseDevelopmentContent">
+                        <p>英国专业与商业服务发展计划代表了一项全面战略，旨在加强我们作为专业知识和商业咨询服务全球领导者的地位。通过有针对性的投资、技能发展和国际推广，我们正在建立一个专业服务企业可以在全球范围内蓬勃发展并扩大规模的生态系统。</p>
+                        <p>我们的计划包括对专业资格认证、服务交付数字化转型、出口促进以及增强整个行业多样性和包容性的举措提供重要支持。通过为技能发展和创新提供专门资金，我们确保英国保持专业服务卓越的前沿地位。</p>
+                        <p>专业与商业服务委员会汇集了政府和行业领导者，以应对从适应数字颠覆到保持英国在全球市场竞争优势的关键挑战和机遇。</p>
+                        
+                        <div class="section-image">
+                            <img src="images/image15.jpg" alt="未来城市景观与数据连接">
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <a href="#" class="cta-button">阅读完整报告</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Section -->
+        <section class="content-section" style="background: var(--light-gray);" id="investment">
+            <div class="container">
+                <div class="section-header">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishInvestmentHeader">
+                        <h2>Invest in the UK to expand your business</h2>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseInvestmentHeader">
+                        <h2>投资英国以扩展您的业务</h2>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishInvestmentContent">
+                        <p>Join the thriving community of international professional services firms choosing the UK for growth and market leadership. Benefit from our world-class talent pool, supportive business environment, and access to global markets through our extensive professional networks.</p>
+                        <p>Strategic investments in professional services hubs across London, Manchester, Edinburgh, Birmingham, and other major cities offer unique opportunities for collaboration with leading firms and access to diverse client bases across multiple sectors.</p>
+                        <p>Our team of experts is ready to provide tailored advice and support to help you <strong style="color: var(--uk-blue);">expand your business in the UK</strong> and capitalize on the tremendous opportunities in our dynamic professional and business services sector.</p>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseInvestmentContent">
+                        <p>加入选择英国实现增长和市场领导力的国际专业服务公司繁荣社区。受益于我们世界级的人才库、支持性的商业环境以及通过我们广泛的专业网络进入全球市场的机会。</p>
+                        <p>在伦敦、曼彻斯特、爱丁堡、伯明翰和其他主要城市的专业服务中心进行战略投资，为与领先公司的合作和接触跨多个行业的多样化客户群提供了独特的机会。</p>
+                        <p>我们的专家团队随时准备提供量身定制的建议和支持，帮助您<strong style="color: var(--uk-blue);">在英国扩展业务</strong>，并利用我们充满活力的专业与商业服务领域的巨大机遇。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promotional Banner -->
+        <section class="promo-banner">
+            <div class="promo-content">
+                <!-- English Content -->
+                <div class="language-content active" id="englishPromoContent">
+                    <div class="promo-text">
+                        <h2>EXPAND YOUR BUSINESS</h2>
+                        <h3>IN THE UK</h3>
+                    </div>
+                    <div class="promo-graphic">
+                        <div class="uk-flag"></div>
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                </div>
+                
+                <!-- Chinese Content -->
+                <div class="language-content" id="chinesePromoContent">
+                    <div class="promo-text">
+                        <h2>扩展您的业务</h2>
+                        <h3>在英国</h3>
+                    </div>
+                    <div class="promo-graphic">
+                        <div class="uk-flag"></div>
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <!-- English Content -->
+                    <div class="language-content active" id="englishFooterContent">
+                        <h2>Contact Us</h2>
+                        <p>Get in touch with our team for tailored support and advice on expanding your professional and business services in the UK.</p>
+                      <button href="contact.html" >Contact us</button>
+                        
+                        </div>
+                    </div>
+                    
+                    <!-- Chinese Content -->
+                    <div class="language-content" id="chineseFooterContent">
+                        <h2>联系我们</h2>
+                        <p>与我们的团队联系，获取关于在英国扩展专业与商业服务的定制支持和建议。</p>
+                            <button href="contact.html" >Contact us</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <!-- English Content -->
+                <div class="language-content active" id="englishCopyright">
+                    <p>© 2025 UK Government. All Rights Reserved.</p>
+                </div>
+                
+                <!-- Chinese Content -->
+                <div class="language-content" id="chineseCopyright">
+                    <p>© 2025 英国政府。保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Toggle Functionality
+        const languageToggle = document.getElementById('languageToggle');
+        const englishContents = document.querySelectorAll('#englishContent, #englishOverviewHeader, #englishOverviewContent, #englishStatsContent, #englishWhyHeader, #englishWhyContent, #englishDevelopmentHeader, #englishDevelopmentContent, #englishInvestmentHeader, #englishInvestmentContent, #englishPromoContent, #englishFooterContent, #englishFooterLinks, #englishCopyright');
+        const chineseContents = document.querySelectorAll('#chineseContent, #chineseOverviewHeader, #chineseOverviewContent, #chineseStatsContent, #chineseWhyHeader, #chineseWhyContent, #chineseDevelopmentHeader, #chineseDevelopmentContent, #chineseInvestmentHeader, #chineseInvestmentContent, #chinesePromoContent, #chineseFooterContent, #chineseFooterLinks, #chineseCopyright');
+        
+        let isEnglish = true;
+        
+        languageToggle.addEventListener('click', function() {
+            if (isEnglish) {
+                // Switch to Chinese
+                englishContents.forEach(content => content.classList.remove('active'));
+                chineseContents.forEach(content => content.classList.add('active'));
+                languageToggle.textContent = 'English';
+                isEnglish = false;
+            } else {
+                // Switch to English
+                chineseContents.forEach(content => content.classList.remove('active'));
+                englishContents.forEach(content => content.classList.add('active'));
+                languageToggle.textContent = '中文';
+                isEnglish = true;
+            }
+        });
+        
+        // Mobile Menu Functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+                header.style.padding = '10px 0';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                header.style.padding = '15px 0';
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
